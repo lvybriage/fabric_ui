@@ -13,7 +13,7 @@ class App extends React.Component<{}, {}> {
         return (
             <div>
                 <Nav />
-                <div>hello world</div>
+                <div>just test</div>
                 <div>{this.props.children}</div>
             </div>
         );
