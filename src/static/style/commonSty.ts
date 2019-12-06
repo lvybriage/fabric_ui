@@ -1,18 +1,9 @@
-import { IStackStyles, IStackTokens, IStackItemStyles } from 'office-ui-fabric-react';
-const stackItemStyles: IStackItemStyles = {
+import { IStackItemStyles } from 'office-ui-fabric-react';
+const verticalAlign: IStackItemStyles = {
     root: {
-        // alignItems: 'center',
-        // background: DefaultPalette.themePrimary,
-        // color: DefaultPalette.white,
         display: 'flex',
-        // height: 50,
-        //   justifyContent: 'center'
+        verticalAlign: 'center'
     }
 };
 
-const contentPadding: IStackStyles = {
-    root: {
-        padding: '0 20px',
-    }
-};
-export { stackItemStyles, contentPadding };
+export { verticalAlign };

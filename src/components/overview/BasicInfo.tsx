@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Stack, TooltipHost, getId } from 'office-ui-fabric-react';
-import { contentPadding } from '../../static/style/commonSty'
 import { EXPERIMENT } from '../../static/datamodel';
 import { formatTimestamp } from '../../static/function';
 
@@ -19,7 +18,7 @@ class BasicInfo extends React.Component<BasicInfoProps, {}> {
 
     render() {
         return (
-            <Stack styles={contentPadding} horizontal className="main">
+            <Stack horizontal className="main">
                 <Stack.Item grow={100 / 3} className="padItem basic">
                     <p>Name</p>
                     <div>{EXPERIMENT.profile.params.experimentName}</div>

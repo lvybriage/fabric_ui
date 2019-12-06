@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Stack, DefaultPalette, IStackStyles, IStackTokens, IStackItemStyles } from 'office-ui-fabric-react';
 import Title1 from './overview/Title1';
-import {stackItemStyles, contentPadding} from '../static/style/commonSty';
+// import {stackItemStyles, contentPadding} from '../static/style/commonSty';
 require('../static/style/overview.scss');
 
 class Overview extends React.Component<{}, {}> {
@@ -15,11 +15,11 @@ class Overview extends React.Component<{}, {}> {
             <div className="overview">
                 {/* status and experiment block */}
                 {/* <Stack> */}
-                <Stack styles={contentPadding}>
+                <Stack>
                     <Title1 text="Experiment" icon="11.png" />
                     {/* <BasicInfo experimentUpdateBroadcast={experimentUpdateBroadcast} /> */}
                 </Stack>
-                <Stack styles={contentPadding} horizontal>
+                <Stack horizontal>
                     <Stack.Item grow={100 / 3}>
                         
                     </Stack.Item>

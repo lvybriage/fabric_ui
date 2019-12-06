@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message } from 'antd';
+import { MessageBarButton, Link, Stack, StackItem, MessageBar, MessageBarType, ChoiceGroup, IStackProps } from 'office-ui-fabric-react';
 import { MANAGER_IP } from './const';
 import { MetricDataRecord, FinalType, TableObj } from './interface';
 
@@ -24,7 +24,7 @@ const convertDuration = (num: number) => {
     const hour = Math.floor(num / 3600);
     const minute = Math.floor(num / 60 % 60);
     const second = Math.floor(num % 60);
-    let result = [ ];
+    let result = [];
     if (hour > 0) {
         result.push(`${hour}h`);
     }
@@ -117,22 +117,25 @@ const killJob = (key: number, id: string, status: string, updateList?: Function)
     })
         .then(res => {
             if (res.status === 200) {
-                message.destroy();
-                message.success('Cancel the job successfully');
+                // message.destroy();
+                // message.success('Cancel the job successfully');
                 // render the table
                 if (updateList) {
                     updateList();  // FIXME
                 }
             } else {
-                message.error('fail to cancel the job');
+                alert('fail to cancel the job');
+                // message.error('fail to cancel the job');
             }
         })
         .catch(error => {
             if (error.response.status === 500) {
                 if (error.response.data.error) {
-                    message.error(error.response.data.error);
+                    alert(123);
+                    // message.error(error.response.data.error);
                 } else {
-                    message.error('500 error, fail to cancel the job');
+                    alert(234);
+                    // message.error('500 error, fail to cancel the job');
                 }
             }
         });
@@ -169,7 +172,11 @@ const downFile = (content: string, fileName: string) => {
     }
 };
 
-function formatTimestamp(timestamp?: number, placeholder?: string = 'N/A'): string {
+// function formatTimestamp(timestamp?: number, placeholder?: string = 'N/A'): string {
+function formatTimestamp(timestamp?: number, placeholder?: string): string {
+    if (placeholder === undefined) {
+        placeholder = 'N/A';
+    }
     return timestamp ? new Date(timestamp).toLocaleString('en-US') : placeholder;
 }
 

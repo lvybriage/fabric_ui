@@ -4,6 +4,7 @@ const METRIC_GROUP_UPDATE_SIZE = 20;
 
 const MANAGER_IP = `http://10.214.70.19:8080/api/v1/nni`;
 const DOWNLOAD_IP = `/logs`;
+const WEBUIDOC = 'https://nni.readthedocs.io/en/latest/Tutorial/WebUI.html';
 const trialJobStatus = [
     'UNKNOWN',
     'WAITING',
@@ -72,7 +73,7 @@ const COLUMN = ['Trial No.', 'ID', 'Duration', 'Status', 'Default', 'Operation']
 const COLUMNPro = ['Trial No.', 'ID', 'Start Time', 'End Time', 'Duration', 'Status',
 'Intermediate result', 'Default', 'Operation'];
 export {
-    MANAGER_IP, DOWNLOAD_IP, trialJobStatus, COLUMNPro,
+    MANAGER_IP, DOWNLOAD_IP, trialJobStatus, COLUMNPro, WEBUIDOC,
     CONTROLTYPE, MONACO, COLUMN, COLUMN_INDEX, DRAWEROPTION,
     METRIC_GROUP_UPDATE_THRESHOLD, METRIC_GROUP_UPDATE_SIZE,
 };

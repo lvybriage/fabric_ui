@@ -1,21 +1,31 @@
 import * as React from 'react';
-import Nav from './components/Nav';
+import {Stack, StackItem} from 'office-ui-fabric-react';
+import NavCon from './components/NavCon';
 import './App.css';
+interface AppProps {
+    path: string;
+}
+class App extends React.Component<AppProps, {}> {
 
-class App extends React.Component<{}, {}> {
-
-    constructor(props: {}) {
+    constructor(props: AppProps) {
         super(props);
     }
 
     render() {
-        
+
         return (
-            <div>
-                <Nav />
-                <div>just test</div>
-                <div>{this.props.children}</div>
-            </div>
+            <Stack className="nni" style={{ minHeight: window.innerHeight }}>
+                <div className="header">
+                    <div className="headerCon">
+                        <NavCon />
+                    </div>
+                </div>
+                <Stack className="contentBox">
+                    <Stack className="content">
+                        {this.props.children}
+                    </Stack>
+                </Stack>
+            </Stack>
         );
     }
 }
