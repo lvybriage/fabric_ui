@@ -8,9 +8,9 @@ import {
     IStackTokens, IStackItemStyles, StackItem, sizeBoolean
 } from 'office-ui-fabric-react';
 import MediaQuery from 'react-responsive';
+import LogDrawer from './Modal/LogDrawer';
+import ExperimentDrawer from './Modal/ExperimentDrawer';
 import { OVERVIEWTABS, DETAILTABS, NNILOGO } from './stateless-component/NNItabs';
-// import LogDrawer from './Modal/LogDrawer';
-// import ExperimentDrawer from './Modal/ExperimentDrawer';
 import '../static/style/nav/nav.scss';
 import '../static/style/icon.scss';
 
@@ -49,6 +49,7 @@ class NavCon extends React.Component<{}, NavState> {
     }
     // to see & download nnimanager log
     showNNImanagerLog = () => {
+        console.info('dddddd');
         this.setState({ activeKey: 'nnimanager', isvisibleLogDrawer: true });
     }
     // to see & download dispatcher log
@@ -65,15 +66,24 @@ class NavCon extends React.Component<{}, NavState> {
         });
     }
 
-    onMenuClick?: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => void;
-    iconbuttonss = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => {
-        console.info('ccc');
-        console.info(ev);
-        console.info(button);
+    // close log drawer (nnimanager.dispatcher)
+    closeLogDrawer = () => {
+        this.setState({ isvisibleLogDrawer: false, activeKey: '' });
     }
 
-    render() {
+    // close download experiment parameters drawer
+    closeExpDrawer = () => {
+        this.setState({ isvisibleExperimentDrawer: false });
+    }
+    // onMenuClick?: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => void;
+    // iconbuttonss = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => {
+    //     console.info('ccc');
+    //     console.info(ev);
+    //     console.info(button);
+    // }
 
+    render() {
+        const { isvisibleLogDrawer, activeKey, isvisibleExperimentDrawer } = this.state;
         return (
             <Stack horizontal className="nav">
                 <StackItem grow={30} styles={{ root: { minWidth: 300, display: 'flex', verticalAlign: 'center' } }}>
@@ -106,7 +116,7 @@ class NavCon extends React.Component<{}, NavState> {
                             iconProps={{ iconName: 'View' }}
                             title="view"
                             ariaLabel="view"
-                            onMenuClick={this.iconbuttonss}
+                            // onMenuClick={this.iconbuttonss}
                         // onMenuClick?: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => void;
                         />
                         {/* link to document button */}
@@ -125,14 +135,23 @@ class NavCon extends React.Component<{}, NavState> {
                                 iconProps={{ iconName: 'OfficeChat' }}
                                 title="feedback"
                                 ariaLabel="feedback"
-                            // onClick={() => { window.open("http://github.com/nni") }}
                             />
                         </a>
                         {/* <span className="version">Version: {version}</span> */}
                         <span>v1.3</span>
                     </Stack>
                 </StackItem>
-
+                {/* the drawer for dispatcher & nnimanager log message */}
+                {isvisibleLogDrawer ? (
+                    <LogDrawer
+                        closeDrawer={this.closeLogDrawer}
+                        activeTab={activeKey}
+                    />
+                ) : null}
+                <ExperimentDrawer
+                    isVisble={isvisibleExperimentDrawer}
+                    closeExpDrawer={this.closeExpDrawer}
+                />
             </Stack>
         );
     }

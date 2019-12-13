@@ -1,0 +1,61 @@
+.close {
+  button,
+  button:active,
+  button:hover {
+    background-color: #212121;
+    color: #fff;
+    border: none;
+  }
+}
+.download {
+  button,
+  button:active,
+  button:hover {
+    color: #fff;
+    border: none;
+  }
+}
+
+.log-tab-body {
+  .refresh {
+    margin-left: 10px;
+    display: none;
+  }
+  .ms-Pivot-text{
+    color: #fff;
+  }
+}
+.just-for-log {
+  .monaco-editor {
+    // background-color: #1e1e1e;
+    // .line-numbers {
+    //   color: #fff;
+    // }
+    // .current-line ~ .line-numbers {
+    //   color: #fffaf0;
+    // }
+  }
+  .view-lines {
+    // background-color: #1e1e1e;
+    // .mtk1 {
+    //   color: #fff;
+    // }
+  }
+  .margin-view-overlays {
+    // background-color: #1e1e1e;
+  }
+}
+
+/* office-fabric-ui */
+.ms-Panel-main {
+  width: 55%;
+  background: #333;
+}
+
+/* log drawer download & close button's row */
+.buttons {
+  margin-top: 16px;
+  .close {
+    text-align: right;
+  }
+}

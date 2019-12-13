@@ -62,3 +62,6 @@ declare module '*.module.sass' {
   const classes: { [key: string]: string };
   export default classes;
 }
+
+// declare module 'react-monaco-editor'
+declare module 'react-monaco-editor/src/editor.js';

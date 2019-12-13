@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add react-json-view@1.16.1 @types/react-json-view@latest --dev
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add monaco-editor-webpack-plugin
 
 PATH: 
-  C:\Users\v-liguo\bin;D:\app\Git\mingw64\bin;D:\app\Git\usr\local\bin;D:\app\Git\usr\bin;D:\app\Git\usr\bin;D:\app\Git\mingw64\bin;D:\app\Git\usr\bin;C:\Users\v-liguo\bin;C:\Program Files\Common Files\Microsoft Shared\Microsoft Online Services;C:\Program Files (x86)\Common Files\Microsoft Shared\Microsoft Online Services;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Yarn\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\nodejs;D:\app\Git\cmd;D:\python;D:\python\Scripts;C:\Users\v-liguo\.windows-build-tools\python27;C:\Users\v-liguo\AppData\Roaming\npm\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\v-liguo\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\v-liguo\AppData\Roaming\npm\node_modules\.bin;C:\Program Files\Common Files\Microsoft Shared\Microsoft Online Services;C:\Program Files (x86)\Common Files\Microsoft Shared\Microsoft Online Services;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Yarn\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit;C:\Program Files\nodejs;D:\app\Git\cmd;C:\Users\v-liguo\AppData\Local\Microsoft\WindowsApps;C:\Users\v-liguo\AppData\Local\Yarn\bin;C:\Users\v-liguo\AppData\Local\Programs\Git\cmd;C:\Users\v-liguo\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;D:\app\Git\usr\bin\vendor_perl;D:\app\Git\usr\bin\core_perl
+  C:\Program Files\Common Files\Microsoft Shared\Microsoft Online Services;C:\Program Files (x86)\Common Files\Microsoft Shared\Microsoft Online Services;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Yarn\bin;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\nodejs\;D:\app\Git\cmd;D:\python\;D:\python\Scripts;C:\Users\v-liguo\.windows-build-tools\python27\;C:\Users\v-liguo\AppData\Roaming\npm\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\v-liguo\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\v-liguo\AppData\Roaming\npm\node_modules\.bin;C:\Program Files\Common Files\Microsoft Shared\Microsoft Online Services;C:\Program Files (x86)\Common Files\Microsoft Shared\Microsoft Online Services;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Yarn\bin;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;D:\app\Git\cmd;C:\Users\v-liguo\AppData\Local\Microsoft\WindowsApps;C:\Users\v-liguo\AppData\Local\Yarn\bin;C:\Users\v-liguo\AppData\Local\Programs\Git\cmd;C:\Users\v-liguo\AppData\Roaming\npm;;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps
 
 Yarn version: 
   1.3.2
@@ -19,15 +19,7 @@ npm manifest:
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-      "@babel/core": "7.4.3",
-      "@svgr/webpack": "4.1.0",
-      "@types/jest": "24.0.12",
-      "@types/node": "11.13.8",
-      "@types/react": "16.8.15",
-      "@types/react-dom": "16.8.4",
-      "@typescript-eslint/eslint-plugin": "1.6.0",
-      "@typescript-eslint/parser": "1.6.0",
-      "@uifabric/fluent-theme": "^0.16.7",
+      "axios": "^0.19.0",
       "babel-eslint": "10.0.1",
       "babel-jest": "24.7.1",
       "babel-loader": "8.0.5",
@@ -68,6 +60,11 @@ npm manifest:
       "react-app-polyfill": "^1.0.0",
       "react-dev-utils": "^9.0.0",
       "react-dom": "^16.8.6",
+      "react-json-view": "^1.19.1",
+      "react-monaco-editor": "^0.28.0",
+      "react-responsive": "^7.0.0",
+      "react-router": "^5.1.2",
+      "react-router-dom": "^5.1.2",
       "resolve": "1.10.0",
       "sass-loader": "7.1.0",
       "semver": "6.0.0",
@@ -79,6 +76,19 @@ npm manifest:
       "webpack-dev-server": "3.2.1",
       "webpack-manifest-plugin": "2.0.4",
       "workbox-webpack-plugin": "4.2.0"
+    },
+    "devDependencies": {
+      "@babel/core": "7.4.3",
+      "@svgr/webpack": "4.1.0",
+      "@types/jest": "24.0.12",
+      "@types/node": "11.13.8",
+      "@types/react": "16.8.15",
+      "@types/react-dom": "16.8.4",
+      "@types/react-responsive": "^3.0.3",
+      "@types/react-router-dom": "^5.1.3",
+      "@typescript-eslint/eslint-plugin": "1.6.0",
+      "@typescript-eslint/parser": "1.6.0",
+      "@uifabric/fluent-theme": "^0.16.7",
     },
     "scripts": {
       "start": "node scripts/start.js",
@@ -149,10 +159,6 @@ npm manifest:
       "presets": [
         "react-app"
       ]
-    },
-    "devDependencies": {
-      "@types/react-router": "^5.1.3",
-      "react-router": "^5.1.2"
     }
   }
 
@@ -1315,6 +1321,10 @@ Lockfile:
       "@svgr/plugin-svgo" "^4.0.3"
       loader-utils "^1.1.0"
   
+  "@types/anymatch@*":
+    version "1.3.1"
+    resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
+  
   "@types/babel__core@^7.1.0":
     version "7.1.1"
     resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.1.tgz#ce9a9e5d92b7031421e1d0d74ae59f572ba48be6"
@@ -1380,7 +1390,21 @@ Lockfile:
     dependencies:
       "@types/react" "*"
   
-  "@types/react-router@^5.1.3":
+  "@types/react-responsive@^3.0.3":
+    version "3.0.3"
+    resolved "https://registry.yarnpkg.com/@types/react-responsive/-/react-responsive-3.0.3.tgz#a31b599c7cfe4135c5cc2f45d0b71df64803b23f"
+    dependencies:
+      "@types/react" "*"
+  
+  "@types/react-router-dom@^5.1.3":
+    version "5.1.3"
+    resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.3.tgz#b5d28e7850bd274d944c0fbbe5d57e6b30d71196"
+    dependencies:
+      "@types/history" "*"
+      "@types/react" "*"
+      "@types/react-router" "*"
+  
+  "@types/react-router@*":
     version "5.1.3"
     resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.3.tgz#7c7ca717399af64d8733d8cb338dd43641b96f2d"
     dependencies:
@@ -1394,9 +1418,30 @@ Lockfile:
       "@types/prop-types" "*"
       csstype "^2.2.0"
   
+  "@types/react@^16.8.23":
+    version "16.9.16"
+    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.16.tgz#4f12515707148b1f53a8eaa4341dae5dfefb066d"
+    dependencies:
+      "@types/prop-types" "*"
+      csstype "^2.2.0"
+  
+  "@types/source-list-map@*":
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
+  
   "@types/stack-utils@^1.0.1":
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
+  
+  "@types/tapable@*":
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.4.tgz#b4ffc7dc97b498c969b360a41eee247f82616370"
+  
+  "@types/uglify-js@*":
+    version "3.0.4"
+    resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.0.4.tgz#96beae23df6f561862a830b4288a49e86baac082"
+    dependencies:
+      source-map "^0.6.1"
   
   "@types/unist@*", "@types/unist@^2.0.0", "@types/unist@^2.0.2":
     version "2.0.3"
@@ -1416,6 +1461,25 @@ Lockfile:
       "@types/node" "*"
       "@types/unist" "*"
       "@types/vfile-message" "*"
+  
+  "@types/webpack-sources@*":
+    version "0.1.5"
+    resolved "https://registry.yarnpkg.com/@types/webpack-sources/-/webpack-sources-0.1.5.tgz#be47c10f783d3d6efe1471ff7f042611bd464a92"
+    dependencies:
+      "@types/node" "*"
+      "@types/source-list-map" "*"
+      source-map "^0.6.1"
+  
+  "@types/webpack@^4.4.19":
+    version "4.41.0"
+    resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.0.tgz#b813a044d8b0dec7dfcd7622fdbe327bde06eb9a"
+    dependencies:
+      "@types/anymatch" "*"
+      "@types/node" "*"
+      "@types/tapable" "*"
+      "@types/uglify-js" "*"
+      "@types/webpack-sources" "*"
+      source-map "^0.6.0"
   
   "@types/yargs@^12.0.2", "@types/yargs@^12.0.9":
     version "12.0.12"
@@ -1882,7 +1946,7 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
   
-  asap@~2.0.6:
+  asap@~2.0.3, asap@~2.0.6:
     version "2.0.6"
     resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   
@@ -1970,6 +2034,13 @@ Lockfile:
   aws4@^1.8.0:
     version "1.8.0"
     resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
+  
+  axios@^0.19.0:
+    version "0.19.0"
+    resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.0.tgz#8e09bff3d9122e133f7b8101c8fbdd00ed3d2ab8"
+    dependencies:
+      follow-redirects "1.5.10"
+      is-buffer "^2.0.2"
   
   axobject-query@^2.0.2:
     version "2.0.2"
@@ -2118,6 +2189,10 @@ Lockfile:
   balanced-match@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
+  
+  base16@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/base16/-/base16-1.0.0.tgz#e297f60d7ec1014a7a971a39ebc8a98c0b681e70"
   
   base64-js@^1.0.2:
     version "1.3.0"
@@ -2818,6 +2893,10 @@ Lockfile:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.0.1.tgz#1343182634298f7f38622f95e73f54e48ddf4738"
   
+  core-js@^1.0.0:
+    version "1.2.7"
+    resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
+  
   core-js@^2.4.0:
     version "2.5.7"
     resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
@@ -2952,6 +3031,10 @@ Lockfile:
       postcss-modules-values "^2.0.0"
       postcss-value-parser "^3.3.0"
       schema-utils "^1.0.0"
+  
+  css-mediaquery@^0.1.2:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/css-mediaquery/-/css-mediaquery-0.1.2.tgz#6a2c37344928618631c54bd33cedd301da18bea0"
   
   css-prefers-color-scheme@^3.1.1:
     version "3.1.1"
@@ -3456,6 +3539,12 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
   
+  encoding@^0.1.11:
+    version "0.1.12"
+    resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
+    dependencies:
+      iconv-lite "~0.4.13"
+  
   end-of-stream@^1.0.0, end-of-stream@^1.1.0:
     version "1.4.1"
     resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43"
@@ -3926,6 +4015,24 @@ Lockfile:
     dependencies:
       bser "^2.0.0"
   
+  fbemitter@^2.0.0:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/fbemitter/-/fbemitter-2.1.1.tgz#523e14fdaf5248805bb02f62efc33be703f51865"
+    dependencies:
+      fbjs "^0.8.4"
+  
+  fbjs@^0.8.0, fbjs@^0.8.4:
+    version "0.8.17"
+    resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
+    dependencies:
+      core-js "^1.0.0"
+      isomorphic-fetch "^2.1.1"
+      loose-envify "^1.0.0"
+      object-assign "^4.1.0"
+      promise "^7.1.1"
+      setimmediate "^1.0.5"
+      ua-parser-js "^0.7.18"
+  
   figgy-pudding@^3.1.0, figgy-pudding@^3.5.1:
     version "3.5.1"
     resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
@@ -4038,6 +4145,19 @@ Lockfile:
     dependencies:
       inherits "^2.0.1"
       readable-stream "^2.0.4"
+  
+  flux@^3.1.3:
+    version "3.1.3"
+    resolved "https://registry.yarnpkg.com/flux/-/flux-3.1.3.tgz#d23bed515a79a22d933ab53ab4ada19d05b2f08a"
+    dependencies:
+      fbemitter "^2.0.0"
+      fbjs "^0.8.0"
+  
+  follow-redirects@1.5.10:
+    version "1.5.10"
+    resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
+    dependencies:
+      debug "=3.1.0"
   
   follow-redirects@^1.0.0:
     version "1.5.9"
@@ -4606,13 +4726,17 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   
+  hyphenate-style-name@^1.0.0:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.3.tgz#097bb7fa0b8f1a9cf0bd5c734cf95899981a9b48"
+  
   iconv-lite@0.4.23:
     version "0.4.23"
     resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.23.tgz#297871f63be507adcfbfca715d0cd0eed84e9a63"
     dependencies:
       safer-buffer ">= 2.1.2 < 3"
   
-  iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4:
+  iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
     version "0.4.24"
     resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
     dependencies:
@@ -4849,6 +4973,10 @@ Lockfile:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.3.tgz#4ecf3fcf749cbd1e472689e109ac66261a25e725"
   
+  is-buffer@^2.0.2:
+    version "2.0.4"
+    resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.4.tgz#3e572f23c8411a5cfd9557c849e3665e0b290623"
+  
   is-builtin-module@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/is-builtin-module/-/is-builtin-module-1.0.0.tgz#540572d34f7ac3119f8f76c30cbc1b1e037affbe"
@@ -5016,7 +5144,7 @@ Lockfile:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/is-root/-/is-root-2.0.0.tgz#838d1e82318144e5a6f77819d90207645acc7019"
   
-  is-stream@^1.1.0:
+  is-stream@^1.0.1, is-stream@^1.1.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   
@@ -5075,6 +5203,13 @@ Lockfile:
   isobject@^3.0.0, isobject@^3.0.1:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
+  
+  isomorphic-fetch@^2.1.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
+    dependencies:
+      node-fetch "^1.0.1"
+      whatwg-fetch ">=0.10.0"
   
   isstream@~0.1.2:
     version "0.1.2"
@@ -5823,9 +5958,17 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   
+  lodash.curry@^4.0.1:
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/lodash.curry/-/lodash.curry-4.1.1.tgz#248e36072ede906501d75966200a86dab8b23170"
+  
   lodash.debounce@^4.0.8:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  
+  lodash.flow@^3.3.0:
+    version "3.5.0"
+    resolved "https://registry.yarnpkg.com/lodash.flow/-/lodash.flow-3.5.0.tgz#87bf40292b8cf83e4e8ce1a3ae4209e20071675a"
   
   lodash.memoize@^4.1.2:
     version "4.1.2"
@@ -5945,6 +6088,12 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
     dependencies:
       object-visit "^1.0.0"
+  
+  matchmediaquery@^0.3.0:
+    version "0.3.0"
+    resolved "https://registry.yarnpkg.com/matchmediaquery/-/matchmediaquery-0.3.0.tgz#6f672bcdbc44de16825c6917fbcdcfb9b82607b1"
+    dependencies:
+      css-mediaquery "^0.1.2"
   
   md5.js@^1.3.4:
     version "1.3.5"
@@ -6155,6 +6304,12 @@ Lockfile:
     dependencies:
       minimist "0.0.8"
   
+  monaco-editor-webpack-plugin@^1.7.0:
+    version "1.7.0"
+    resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.7.0.tgz#920cbeecca25f15d70d568a7e11b0ba4daf1ae83"
+    dependencies:
+      "@types/webpack" "^4.4.19"
+  
   move-concurrently@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6246,6 +6401,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
     dependencies:
       lower-case "^1.1.1"
+  
+  node-fetch@^1.0.1:
+    version "1.7.3"
+    resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
+    dependencies:
+      encoding "^0.1.11"
+      is-stream "^1.0.1"
   
   node-forge@0.7.5:
     version "0.7.5"
@@ -7583,6 +7745,12 @@ Lockfile:
     dependencies:
       asap "~2.0.6"
   
+  promise@^7.1.1:
+    version "7.3.1"
+    resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
+    dependencies:
+      asap "~2.0.3"
+  
   prompts@^2.0.1:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.0.4.tgz#179f9d4db3128b9933aa35f93a800d8fce76a682"
@@ -7590,7 +7758,7 @@ Lockfile:
       kleur "^3.0.2"
       sisteransi "^1.0.0"
   
-  prop-types@^15.5.10:
+  prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     dependencies:
@@ -7679,6 +7847,10 @@ Lockfile:
     version "1.4.1"
     resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
   
+  pure-color@^1.2.0:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/pure-color/-/pure-color-1.3.0.tgz#1fe064fb0ac851f0de61320a8bf796836422f33e"
+  
   q@^1.1.2:
     version "1.5.1"
     resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
@@ -7751,6 +7923,15 @@ Lockfile:
       regenerator-runtime "0.13.2"
       whatwg-fetch "3.0.0"
   
+  react-base16-styling@^0.6.0:
+    version "0.6.0"
+    resolved "https://registry.yarnpkg.com/react-base16-styling/-/react-base16-styling-0.6.0.tgz#ef2156d66cf4139695c8a167886cb69ea660792c"
+    dependencies:
+      base16 "^1.0.0"
+      lodash.curry "^4.0.1"
+      lodash.flow "^3.3.0"
+      pure-color "^1.2.0"
+  
   react-dev-utils@^9.0.0:
     version "9.0.0"
     resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-9.0.0.tgz#356d95db442441c5d4748e0e49f4fd1e71aecbbd"
@@ -7802,7 +7983,47 @@ Lockfile:
     version "16.8.6"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   
-  react-router@^5.1.2:
+  react-json-view@^1.19.1:
+    version "1.19.1"
+    resolved "https://registry.yarnpkg.com/react-json-view/-/react-json-view-1.19.1.tgz#95d8e59e024f08a25e5dc8f076ae304eed97cf5c"
+    dependencies:
+      flux "^3.1.3"
+      react-base16-styling "^0.6.0"
+      react-lifecycles-compat "^3.0.4"
+      react-textarea-autosize "^6.1.0"
+  
+  react-lifecycles-compat@^3.0.4:
+    version "3.0.4"
+    resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  
+  react-monaco-editor@^0.28.0:
+    version "0.28.0"
+    resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.28.0.tgz#c69e8d0b5eaefddef73a535a69257c85d48feee9"
+    dependencies:
+      "@types/react" "^16.8.23"
+      prop-types "^15.7.2"
+  
+  react-responsive@^7.0.0:
+    version "7.0.0"
+    resolved "https://registry.yarnpkg.com/react-responsive/-/react-responsive-7.0.0.tgz#0abde0ccbb50e5e8407e3d61dd4696447e7ebd3c"
+    dependencies:
+      hyphenate-style-name "^1.0.0"
+      matchmediaquery "^0.3.0"
+      prop-types "^15.6.1"
+  
+  react-router-dom@^5.1.2:
+    version "5.1.2"
+    resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.1.2.tgz#06701b834352f44d37fbb6311f870f84c76b9c18"
+    dependencies:
+      "@babel/runtime" "^7.1.2"
+      history "^4.9.0"
+      loose-envify "^1.3.1"
+      prop-types "^15.6.2"
+      react-router "5.1.2"
+      tiny-invariant "^1.0.2"
+      tiny-warning "^1.0.0"
+  
+  react-router@5.1.2, react-router@^5.1.2:
     version "5.1.2"
     resolved "https://registry.yarnpkg.com/react-router/-/react-router-5.1.2.tgz#6ea51d789cb36a6be1ba5f7c0d48dd9e817d3418"
     dependencies:
@@ -7816,6 +8037,12 @@ Lockfile:
       react-is "^16.6.0"
       tiny-invariant "^1.0.2"
       tiny-warning "^1.0.0"
+  
+  react-textarea-autosize@^6.1.0:
+    version "6.1.0"
+    resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-6.1.0.tgz#df91387f8a8f22020b77e3833c09829d706a09a5"
+    dependencies:
+      prop-types "^15.6.0"
   
   react@^16.8.6:
     version "16.8.6"
@@ -8379,7 +8606,7 @@ Lockfile:
       is-plain-object "^2.0.3"
       split-string "^3.0.1"
   
-  setimmediate@^1.0.4:
+  setimmediate@^1.0.4, setimmediate@^1.0.5:
     version "1.0.5"
     resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   
@@ -9106,6 +9333,10 @@ Lockfile:
     version "3.4.5"
     resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
   
+  ua-parser-js@^0.7.18:
+    version "0.7.20"
+    resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.20.tgz#7527178b82f6a62a0f243d1f94fd30e3e3c21098"
+  
   uglify-js@3.4.x, uglify-js@^3.1.4:
     version "3.4.9"
     resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.9.tgz#af02f180c1207d76432e473ed24a28f4a782bae3"
@@ -9501,7 +9732,7 @@ Lockfile:
     dependencies:
       iconv-lite "0.4.24"
   
-  whatwg-fetch@3.0.0:
+  whatwg-fetch@3.0.0, whatwg-fetch@>=0.10.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   
@@ -9827,14 +10058,9 @@ Lockfile:
       yargs-parser "^5.0.0"
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-json-view: Not found
-      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:62098:18)
-      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:123085:22)
-      at Request.emit (events.js:182:13)
-      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:124068:10)
-      at Request.emit (events.js:182:13)
-      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:123988:12)
-      at Object.onceWrapper (events.js:273:13)
-      at IncomingMessage.emit (events.js:187:15)
-      at endReadableNT (_stream_readable.js:1081:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  SyntaxError: D:\new\fabric_ui\package.json: Unexpected token } in JSON at position 2425
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:770:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:92:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:103:13
