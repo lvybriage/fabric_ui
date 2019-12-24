@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { MANAGER_IP } from '../const';
-import { ExperimentProfile, NNIManagerStatus } from '../interface';
+import { ExperimentProfile, NNIManagerStatus } from '../interface'; // eslint-disable-line no-unused-vars
 
 function compareProfiles(profile1?: ExperimentProfile, profile2?: ExperimentProfile): boolean {
     if (!profile1 || !profile2) {
@@ -41,6 +41,7 @@ class Experiment {
         if (!this.profileField) {
             throw Error('Experiment profile not initialized');
         }
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.profileField!;
     }
 
@@ -73,13 +74,16 @@ class Experiment {
         if (!this.statusField) {
             throw Error('Experiment status not initialized');
         }
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.statusField!.status;
     }
 
     get error(): string {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         if (!this.statusField) {
             throw Error('Experiment status not initialized');
         }
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.statusField!.errors[0] || '';
     }
 }

@@ -7,19 +7,19 @@
       "esnext"
     ],
     "allowJs": true,
-    "downlevelIteration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "suppressImplicitAnyIndexErrors": true
+    "jsx": "preserve"
   },
   "include": [
     "src"

@@ -1,7 +1,3 @@
-/// <reference types="node" />
-/// <reference types="react" />
-/// <reference types="react-dom" />
-
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: 'development' | 'production' | 'test';
@@ -62,6 +58,3 @@ declare module '*.module.sass' {
   const classes: { [key: string]: string };
   export default classes;
 }
-
-// declare module 'react-monaco-editor'
-declare module 'react-monaco-editor/src/editor.js';

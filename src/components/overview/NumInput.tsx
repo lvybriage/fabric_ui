@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Stack, StackItem, PrimaryButton } from 'office-ui-fabric-react';
+import { Stack, PrimaryButton } from 'office-ui-fabric-react';
 
 interface ConcurrencyInputProps {
     value: number;
@@ -18,22 +18,22 @@ class ConcurrencyInput extends React.Component<ConcurrencyInputProps, Concurrenc
         this.state = { editting: false };
     }
 
-    save = () => {
+    save = (): void => {
         if (this.input.current !== null) {
             this.props.updateValue(this.input.current.value);
             this.setState({ editting: false });
         }
     }
 
-    cancel = () => {
+    cancel = (): void => {
         this.setState({ editting: false });
     }
 
-    edit = () => {
+    edit = (): void => {
         this.setState({ editting: true });
     }
 
-    render() {
+    render(): React.ReactNode {
         if (this.state.editting) {
             return (
                 <Stack horizontal className="inputBox">

@@ -1,7 +1,5 @@
-// tslint:disable:no-any
-
-// draw accuracy graph data interface
-interface TableObj {
+// draw accuracy graph data export interface
+export interface TableObj {
     key: number;
     sequenceId: number;
     id: string;
@@ -14,7 +12,7 @@ interface TableObj {
     endTime?: number;
 }
 
-interface TableRecord {
+export interface TableRecord {
     key: string;
     sequenceId: number;
     startTime: number;
@@ -28,20 +26,20 @@ interface TableRecord {
     formattedLatestAccuracy: string; // format (LATEST/FINAL)
 }
 
-interface SearchSpace {
+export interface SearchSpace {
     _value: Array<number | string>;
     _type: string;
 }
 
-interface FinalType {
+export interface FinalType {
     default: string;
 }
 
-interface ErrorParameter {
+export interface ErrorParameter {
     error?: string;
 }
 
-interface Parameters {
+export interface Parameters {
     parameters: ErrorParameter;
     logPath?: string;
     intermediate: Array<number>;
@@ -49,28 +47,28 @@ interface Parameters {
 }
 
 // trial accuracy
-interface AccurPoint {
+export interface AccurPoint {
     acc: number;
     index: number;
 }
 
-interface DetailAccurPoint {
+export interface DetailAccurPoint {
     acc: number;
     index: number;
     searchSpace: object;
 }
 
-interface TooltipForIntermediate {
+export interface TooltipForIntermediate {
     data: string;
     seriesName: string;
     dataIndex: number;
 }
 
-interface TooltipForAccuracy {
+export interface TooltipForAccuracy {
     data: Array<number | object>;
 }
 
-interface Dimobj {
+export interface Dimobj {
     dim: number;
     name: string;
     max?: number;
@@ -84,19 +82,19 @@ interface Dimobj {
     nameTextStyle?: object;
 }
 
-interface ParaObj {
+export interface ParaObj {
     data: number[][];
     parallelAxis: Array<Dimobj>;
 }
 
-interface Intermedia {
+export interface Intermedia {
     name: string; // id
     type: string;
     data: Array<number | object>; // intermediate data
     hyperPara: object; // each trial hyperpara value
 }
 
-interface MetricDataRecord {
+export interface MetricDataRecord {
     timestamp: number;
     trialJobId: string;
     parameterId: string;
@@ -105,7 +103,7 @@ interface MetricDataRecord {
     data: string;
 }
 
-interface TrialJobInfo {
+export interface TrialJobInfo {
     id: string;
     sequenceId: number;
     status: string;
@@ -117,7 +115,7 @@ interface TrialJobInfo {
     stderrPath?: string;
 }
 
-interface ExperimentParams {
+export interface ExperimentParams {
     authorName: string;
     experimentName: string;
     description?: string;
@@ -164,7 +162,7 @@ interface ExperimentParams {
     }[];
 }
 
-interface ExperimentProfile {
+export interface ExperimentProfile {
     params: ExperimentParams;
     id: string;
     execDuration: number;
@@ -175,14 +173,7 @@ interface ExperimentProfile {
     revision: number;
 }
 
-interface NNIManagerStatus {
+export interface NNIManagerStatus {
     status: string;
     errors: string[];
 }
-
-export {
-    TableObj, TableRecord, Parameters, ExperimentProfile, AccurPoint,
-    DetailAccurPoint, TooltipForAccuracy, ParaObj, Dimobj, FinalType,
-    TooltipForIntermediate, SearchSpace, Intermedia, MetricDataRecord, TrialJobInfo,
-    NNIManagerStatus,
-};

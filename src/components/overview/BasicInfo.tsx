@@ -16,7 +16,7 @@ class BasicInfo extends React.Component<BasicInfoProps, {}> {
         super(props);
     }
 
-    render() {
+    render(): React.ReactNode {
         return (
             <Stack horizontal className="main">
                 <Stack.Item grow={100 / 3} className="padItem basic">

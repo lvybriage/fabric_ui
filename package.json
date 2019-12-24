@@ -3,7 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@uifabric/react-hooks": "^7.0.1",
+    "@babel/core": "7.4.3",
+    "@svgr/webpack": "4.1.0",
+    "@types/jest": "24.0.12",
+    "@types/node": "^10.13.0",
+    "@types/react": "16.8.15",
+    "@types/react-dom": "16.8.4",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "@uifabric/fluent-theme": "^0.16.7",
     "axios": "^0.19.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.7.1",
@@ -14,6 +22,7 @@
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
+    "echarts": "^4.5.0",
     "echarts-for-react": "^2.0.15-beta.1",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^4.0.0",
@@ -33,9 +42,9 @@
     "jest-resolve": "24.7.1",
     "jest-watch-typeahead": "0.3.0",
     "mini-css-extract-plugin": "0.5.0",
-    "monaco-editor": "^0.18.1",
-    "monaco-editor-webpack-plugin": "^1.7.0",
+    "monaco-editor": "^0.19.0",
     "node-sass": "^4.13.0",
+    "npx": "^10.2.0",
     "office-ui-fabric-react": "^6.174.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.2.1",
@@ -48,10 +57,7 @@
     "react-app-polyfill": "^1.0.0",
     "react-dev-utils": "^9.0.0",
     "react-dom": "^16.8.6",
-    "react-json-view": "^1.19.1",
     "react-monaco-editor": "^0.32.1",
-    "react-responsive": "^7.0.0",
-    "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
@@ -65,23 +71,11 @@
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "4.2.0"
   },
-  "devDependencies": {
-    "@babel/core": "7.4.3",
-    "@svgr/webpack": "4.1.0",
-    "@types/jest": "24.0.12",
-    "@types/node": "11.13.8",
-    "@types/react": "16.8.15",
-    "@types/react-dom": "16.8.4",
-    "@types/react-responsive": "^3.0.3",
-    "@types/react-router-dom": "^5.1.3",
-    "@typescript-eslint/eslint-plugin": "1.6.0",
-    "@typescript-eslint/parser": "1.6.0",
-    "@uifabric/fluent-theme": "^0.16.7"
-  },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "eslint": "npx eslint ./ --ext .tsx,.ts"
   },
   "eslintConfig": {
     "extends": "react-app"

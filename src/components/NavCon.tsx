@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { MANAGER_IP, WEBUIDOC } from '../static/const';
-import { verticalAlign } from '../static/style/commonSty'
+import { WEBUIDOC } from '../static/const';
+// import { verticalAlign } from '../static/style/commonSty';
 import {
-    Stack, initializeIcons, IconButton, IButtonProps, IIconProps, IContextualMenuProps, Dropdown, DefaultButton, Nav, IStackStyles,
-    IStackTokens, IStackItemStyles, StackItem, sizeBoolean
-} from 'office-ui-fabric-react';
-import MediaQuery from 'react-responsive';
+    Stack, initializeIcons, IconButton,
+    StackItem, IContextualMenuProps } from 'office-ui-fabric-react'; // eslint-disable-line no-unused-vars
+// import MediaQuery from 'react-responsive';
 import LogDrawer from './Modal/LogDrawer';
 import ExperimentDrawer from './Modal/ExperimentDrawer';
 import { OVERVIEWTABS, DETAILTABS, NNILOGO } from './stateless-component/NNItabs';
@@ -16,7 +13,6 @@ import '../static/style/icon.scss';
 
 // 初始化icon
 initializeIcons();
-const emojiIcon: IIconProps = { iconName: 'Emoji2' };
 
 interface NavState {
     version: string;
@@ -44,21 +40,20 @@ class NavCon extends React.Component<{}, NavState> {
     }
 
     // to see & download experiment parameters
-    showExpcontent = () => {
+    showExpcontent = (): void => {
         this.setState({ isvisibleExperimentDrawer: true });
     }
     // to see & download nnimanager log
-    showNNImanagerLog = () => {
-        console.info('dddddd');
+    showNNImanagerLog = (): void => {
         this.setState({ activeKey: 'nnimanager', isvisibleLogDrawer: true });
     }
     // to see & download dispatcher log
-    showDispatcherLog = () => {
+    showDispatcherLog = (): void => {
         this.setState({ isvisibleLogDrawer: true, activeKey: 'dispatcher' });
     }
 
     // refresh current page
-    fresh = (event: React.SyntheticEvent<EventTarget>) => {
+    fresh = (event: React.SyntheticEvent<EventTarget>): void => {
         event.preventDefault();
         event.stopPropagation();
         this.setState({ isdisabledFresh: true }, () => {
@@ -67,12 +62,12 @@ class NavCon extends React.Component<{}, NavState> {
     }
 
     // close log drawer (nnimanager.dispatcher)
-    closeLogDrawer = () => {
+    closeLogDrawer = (): void => {
         this.setState({ isvisibleLogDrawer: false, activeKey: '' });
     }
 
     // close download experiment parameters drawer
-    closeExpDrawer = () => {
+    closeExpDrawer = (): void => {
         this.setState({ isvisibleExperimentDrawer: false });
     }
     // onMenuClick?: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => void;
@@ -82,8 +77,9 @@ class NavCon extends React.Component<{}, NavState> {
     //     console.info(button);
     // }
 
-    render() {
-        const { isvisibleLogDrawer, activeKey, isvisibleExperimentDrawer } = this.state;
+    render(): React.ReactNode {
+        const { isvisibleLogDrawer, activeKey, isvisibleExperimentDrawer, version } = this.state;
+        const feed = `https://github.com/Microsoft/nni/issues/new?labels=${version}`;
         return (
             <Stack horizontal className="nav">
                 <StackItem grow={30} styles={{ root: { minWidth: 300, display: 'flex', verticalAlign: 'center' } }}>
@@ -116,11 +112,11 @@ class NavCon extends React.Component<{}, NavState> {
                             iconProps={{ iconName: 'View' }}
                             title="view"
                             ariaLabel="view"
-                            // onMenuClick={this.iconbuttonss}
+                        // onMenuClick={this.iconbuttonss}
                         // onMenuClick?: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => void;
                         />
                         {/* link to document button */}
-                        <a href={WEBUIDOC} target="_blank" className="docIcon">
+                        <a href={WEBUIDOC} target="_blank" rel="noopener noreferrer" className="docIcon">
                             <IconButton
                                 className="iconButtons"
                                 iconProps={{ iconName: 'StatusCircleQuestionMark' }}
@@ -128,8 +124,8 @@ class NavCon extends React.Component<{}, NavState> {
                                 ariaLabel="document"
                             />
                         </a>
-                        {/* <a href={feed} target="_blank"> */}
-                        <a href="#" target="_blank" className="feedback">
+                        {/* <a href= target="_blank"> */}
+                        <a href={feed} target="_blank" rel="noopener noreferrer" className="feedback">
                             <IconButton
                                 className="iconButtons"
                                 iconProps={{ iconName: 'OfficeChat' }}

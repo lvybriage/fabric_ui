@@ -4,7 +4,7 @@ import ReactEcharts from 'echarts-for-react';
 import IntermediateVal from '../public-child/IntermediateVal';
 import { TRIALS } from '../../static/datamodel';
 import '../../static/style/compare.scss';
-import { TableRecord, Intermedia, TooltipForIntermediate } from '../../static/interface';
+import { TableRecord, Intermedia, TooltipForIntermediate } from '../../static/interface'; // eslint-disable-line no-unused-vars
 
 // the modal of trial compare
 interface CompareProps {
@@ -20,20 +20,19 @@ class Compare extends React.Component<CompareProps, {}> {
         super(props);
     }
 
-    intermediate = () => {
+    intermediate = (): React.ReactNode => {
         const { compareStacks } = this.props;
         const trialIntermediate: Array<Intermedia> = [];
         const idsList: Array<string> = [];
-        Object.keys(compareStacks).map(item => {
-            const temp = compareStacks[item];
-            const trial = TRIALS.getTrial(temp.id);
+        compareStacks.forEach(element => {
+            const trial = TRIALS.getTrial(element.id);
             trialIntermediate.push({
-                name: temp.id,
+                name: element.id,
                 data: trial.description.intermediate,
                 type: 'line',
                 hyperPara: trial.description.parameters
             });
-            idsList.push(temp.id);
+            idsList.push(element.id);
         });
         // find max intermediate number
         trialIntermediate.sort((a, b) => { return (b.data.length - a.data.length); });
@@ -41,9 +40,8 @@ class Compare extends React.Component<CompareProps, {}> {
         // max length
         const length = trialIntermediate[0] !== undefined ? trialIntermediate[0].data.length : 0;
         const xAxis: Array<number> = [];
-        Object.keys(trialIntermediate).map(item => {
-            const temp = trialIntermediate[item];
-            legend.push(temp.name);
+        trialIntermediate.forEach(element => {
+            legend.push(element.name);
         });
         for (let i = 1; i <= length; i++) {
             xAxis.push(i);
@@ -52,14 +50,14 @@ class Compare extends React.Component<CompareProps, {}> {
             tooltip: {
                 trigger: 'item',
                 enterable: true,
-                position: function (point: Array<number>, data: TooltipForIntermediate) {
+                position: function (point: Array<number>, data: TooltipForIntermediate): number[] {
                     if (data.dataIndex < length / 2) {
                         return [point[0], 80];
                     } else {
                         return [point[0] - 300, 80];
                     }
                 },
-                formatter: function (data: TooltipForIntermediate) {
+                formatter: function (data: TooltipForIntermediate): React.ReactNode {
                     const trialId = data.seriesName;
                     let obj = {};
                     const temp = trialIntermediate.find(key => key.name === trialId);
@@ -106,7 +104,7 @@ class Compare extends React.Component<CompareProps, {}> {
     }
 
     // render table column ---
-    initColumn = () => {
+    initColumn = (): React.ReactNode => {
         const idList: Array<string> = [];
         const sequenceIdList: Array<number> = [];
         const durationList: Array<number> = [];
@@ -118,8 +116,7 @@ class Compare extends React.Component<CompareProps, {}> {
         if (compareStacks.length !== 0) {
             parameterKeys = Object.keys(compareStacks[0].description.parameters);
         }
-        Object.keys(compareStacks).map(item => {
-            const temp = compareStacks[item];
+        compareStacks.forEach(temp => {
             idList.push(temp.id);
             sequenceIdList.push(temp.sequenceId);
             durationList.push(temp.duration);
@@ -195,15 +192,15 @@ class Compare extends React.Component<CompareProps, {}> {
         );
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this._isCompareMount = true;
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         this._isCompareMount = false;
     }
 
-    render() {
+    render(): React.ReactNode {
         const { visible, cancelFunc } = this.props;
 
         return (

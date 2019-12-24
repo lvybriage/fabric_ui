@@ -1,8 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
 import {
-    Stack, StackItem, IconButton, Panel, PrimaryButton, DefaultButton,
-    Pivot, PivotItem, PivotLinkFormat, PivotLinkSize
+    Stack, StackItem, Panel, PrimaryButton, DefaultButton,
+    Pivot, PivotItem
 } from 'office-ui-fabric-react';
 import { a } from '../Buttons/Icon';
 import { DOWNLOAD_IP } from '../../static/const';
@@ -36,19 +36,19 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
         };
     }
 
-    downloadNNImanager = () => {
+    downloadNNImanager = (): void => {
         if (this.state.nniManagerLogStr !== null) {
             downFile(this.state.nniManagerLogStr, 'nnimanager.log');
         }
     }
 
-    downloadDispatcher = () => {
+    downloadDispatcher = (): void => {
         if (this.state.dispatcherLogStr !== null) {
             downFile(this.state.dispatcherLogStr, 'dispatcher.log');
         }
     }
 
-    dispatcherHTML = () => {
+    dispatcherHTML = (): React.ReactNode => {
         return (
             <div>
                 <span>Dispatcher Log</span>
@@ -59,7 +59,7 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
         );
     }
 
-    nnimanagerHTML = () => {
+    nnimanagerHTML = (): React.ReactNode => {
         return (
             <div>
                 <span>NNImanager Log</span>
@@ -68,22 +68,22 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
         );
     }
 
-    setLogDrawerHeight = () => {
+    setLogDrawerHeight = (): void => {
         this.setState(() => ({ logDrawerHeight: window.innerHeight - 48 }));
     }
 
-    async componentDidMount() {
+    async componentDidMount(): Promise<void> {
         this.refresh();
         window.addEventListener('resize', this.setLogDrawerHeight);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void{
         window.clearTimeout(this.timerId);
         window.removeEventListener('resize', this.setLogDrawerHeight);
     }
 
-    render() {
-        const { closeDrawer, activeTab } = this.props;
+    render(): React.ReactNode {
+        const { closeDrawer } = this.props;
         const { nniManagerLogStr, dispatcherLogStr, isLoading, logDrawerHeight } = this.state;
 
         return (
@@ -140,7 +140,7 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
         );
     }
 
-    private refresh = () => {
+    private refresh = (): void => {
         window.clearTimeout(this.timerId);
         const dispatcherPromise = axios.get(`${DOWNLOAD_IP}/dispatcher.log`);
         const nniManagerPromise = axios.get(`${DOWNLOAD_IP}/nnimanager.log`);
@@ -160,7 +160,7 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
         });
     }
 
-    private manualRefresh = () => {
+    private manualRefresh = (): void => {
         this.setState({ isLoading: true });
         this.refresh();
     }

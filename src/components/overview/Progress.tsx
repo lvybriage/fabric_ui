@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Stack, DefaultButton, IButtonProps, Callout, Link, IconButton, FontWeights, mergeStyleSets, getId, getTheme } from 'office-ui-fabric-react';
+import { Stack, Callout, Link, IconButton, FontWeights, mergeStyleSets, getId, getTheme } from 'office-ui-fabric-react';
 import axios from 'axios';
 import { MANAGER_IP } from '../../static/const';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { convertTime } from '../../static/function';
 import ConcurrencyInput from './NumInput';
 import ProgressBar from './ProgressItem';
-import { a } from '../Buttons/Icon';
 import LogDrawer from '../Modal/LogDrawer';
 import '../../static/style/progress.scss';
 import '../../static/style/probar.scss';
@@ -88,7 +87,7 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
         };
     }
 
-    editTrialConcurrency = async (userInput: string) => {
+    editTrialConcurrency = async (userInput: string): Promise<void> => {
         if (!userInput.match(/^[1-9]\d*$/)) {
             // message.error('Please enter a positive integer!', 2);
             return;
@@ -105,6 +104,7 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
         // rest api, modify trial concurrency value
         try {
             const res = await axios.put(`${MANAGER_IP}/experiment`, newProfile, {
+                // eslint-disable-next-line @typescript-eslint/camelcase
                 params: { update_type: 'TRIAL_CONCURRENCY' }
             });
             if (res.status === 200) {
@@ -125,30 +125,32 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
         }
     }
 
-    isShowDrawer = () => {
+    isShowDrawer = (): void => {
         this.setState({ isShowLogDrawer: true });
     }
 
-    closeDrawer = () => {
+    closeDrawer = (): void => {
         this.setState({ isShowLogDrawer: false });
     }
 
-    _onDismiss = () => {
+    _onDismiss = (): void => {
         this.setState({ isCalloutVisible: false });
     }
 
-    _onShow = () => {
+    _onShow = (): void => {
         this.setState({ isCalloutVisible: true });
     }
 
-    render() {
+    render(): React.ReactNode {
         const { bestAccuracy } = this.props;
         const { isShowLogDrawer, isCalloutVisible } = this.state;
 
         const count = TRIALS.countStatus();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const stoppedCount = count.get('USER_CANCELED')! + count.get('SYS_CANCELED')! + count.get('EARLY_STOPPED')!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const bar2 = count.get('RUNNING')! + count.get('SUCCEEDED')! + count.get('FAILED')! + stoppedCount;
-        // 0-1 1-100 is not support
+        // 0-1 1-100 is not support 
         const bar2Percent = bar2 / EXPERIMENT.profile.params.maxTrialNum;
         const percent = EXPERIMENT.profile.execDuration / EXPERIMENT.profile.params.maxExecDuration;
         const remaining = convertTime(EXPERIMENT.profile.params.maxExecDuration - EXPERIMENT.profile.execDuration);
@@ -156,10 +158,10 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
         const maxTrialNum = EXPERIMENT.profile.params.maxTrialNum;
         const execDuration = convertTime(EXPERIMENT.profile.execDuration);
 
-        const examplePrimaryButton: IButtonProps = {
-            children: 'Learn about',
-            onClick: this.isShowDrawer
-        };
+        // const examplePrimaryButton = {
+        //     children: 'Learn about',
+        //     onClick: this.isShowDrawer
+        // };
         return (
             <Stack className="progress" id="barBack">
                 <Stack className="basic lineBasic">
@@ -171,7 +173,7 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
                                 ?
                                 <div>
                                     {/* <div className={styles.buttonArea} ref={this._menuButtonElement}> */}
-                                    <div className={styles.buttonArea} ref={(val) => this._menuButtonElement = val}>
+                                    <div className={styles.buttonArea} ref={(val): any => this._menuButtonElement = val}>
                                         {/* <DefaultButton onClick={this._onShow} text={isCalloutVisible ? 'Hide callout' : 'Show callout'} /> */}
                                         <IconButton
                                             // className="iconButtons"
@@ -200,7 +202,7 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
                                                     {EXPERIMENT.error}
                                                 </p>
                                                 <div className={styles.actions}>
-                                                    <Link className={styles.link} href="http://microsoft.com" target="_blank">
+                                                    <Link className={styles.link} onClick={this.isShowDrawer}>
                                                         Learn about
                                                     </Link>
                                                 </div>
@@ -208,32 +210,6 @@ class Progressed extends React.Component<ProgressProps, ProgressState> {
                                         </Callout>
                                     )}
                                 </div>
-                                // <div className="ms-TeachingBubbleExample">
-                                //     <span className="ms-TeachingBubbleBasicExample-buttonArea" ref={menuButton => (this._menuButtonElement = menuButton!)}>
-                                //         {a}
-                                //         <IconButton
-                                //             // className="iconButtons"
-                                //             iconProps={{ iconName: 'info' }}
-                                //             onClick={isCalloutVisible ? this._onDismiss : this._onShow}
-                                //         />
-                                //     </span>
-                                //     {isCalloutVisible ? (
-                                //         <div>
-                                //             <TeachingBubble
-                                //                 target={this._menuButtonElement}
-                                //                 hasSmallHeadline={true}
-                                //                 onDismiss={this._onDismiss}
-                                //                 // hasCloseButton={true}
-                                //                 closeButtonAriaLabel="Close"
-                                //                 primaryButtonProps={examplePrimaryButton}
-                                //                 headline="ERROR"
-                                //             >
-                                //                 {EXPERIMENT.error}
-                                //             </TeachingBubble>
-                                //         </div>
-                                //     ) : null}
-                                // </div>
-
                                 :
                                 null
                         }

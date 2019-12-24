@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 // import { Stack, StackItem, Input, Modal, Form, Button, Icon } from 'antd';
-import { Stack, StackItem, Modal, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { Stack, Modal, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 import { MANAGER_IP } from '../../static/const';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { warining, errorBadge, completed } from '../Buttons/Icon';
@@ -78,19 +78,19 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
 
     // }
 
-    warningConfirm = () => {
+    warningConfirm = (): void => {
         this.setState(() => ({ isShowWarning: false }));
         const { customParameters } = this.state;
         this.submitCustomize(customParameters);
     }
 
-    warningCancel = () => {
+    warningCancel = (): void => {
         this.setState(() => ({ isShowWarning: false }));
     }
 
-    submitCustomize = (customized: Object) => {
+    submitCustomize = (customized: Record<string, any>): void => {
         // delete `tag` key
-        for (let i in customized) {
+        for (const i in customized) {
             if (i === 'tag') {
                 delete customized[i];
             }
@@ -108,24 +108,24 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
                     this.setState(() => ({ isShowSubmitFailed: true }));
                 }
             })
-            .catch(error => {
+            .catch(() => {
                 this.setState(() => ({ isShowSubmitFailed: true }));
             });
     }
 
-    closeSucceedHint = () => {
+    closeSucceedHint = (): void => {
         // also close customized trial modal
         this.setState(() => ({ isShowSubmitSucceed: false }));
         this.props.closeCustomizeModal();
     }
 
-    closeFailedHint = () => {
+    closeFailedHint = (): void => {
         // also close customized trial modal
         this.setState(() => ({ isShowSubmitFailed: false }));
         this.props.closeCustomizeModal();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const { copyTrialId } = this.props;
         if (copyTrialId !== undefined && TRIALS.getTrial(copyTrialId) !== undefined) {
             const originCopyTrialPara = TRIALS.getTrial(copyTrialId).description.parameters;
@@ -133,7 +133,7 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
         }
     }
 
-    componentWillReceiveProps(nextProps: CustomizeProps) {
+    componentWillReceiveProps(nextProps: CustomizeProps): void {
         const { copyTrialId } = nextProps;
         if (copyTrialId !== undefined && TRIALS.getTrial(copyTrialId) !== undefined) {
             const originCopyTrialPara = TRIALS.getTrial(copyTrialId).description.parameters;
@@ -141,9 +141,10 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
         }
     }
 
-    render() {
+    render(): React.ReactNode {
         const { closeCustomizeModal, visible } = this.props;
-        const { isShowSubmitSucceed, isShowSubmitFailed, isShowWarning, customID, copyTrialParameter } = this.state;
+        // const { isShowSubmitSucceed, isShowSubmitFailed, isShowWarning, customID, copyTrialParameter } = this.state;
+        const { isShowSubmitSucceed, isShowSubmitFailed, isShowWarning, customID } = this.state;
         // const {
         //     form: { getFieldDecorator },
         //     // form: { getFieldDecorator, getFieldValue },

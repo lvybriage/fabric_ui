@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Stack, StackItem} from 'office-ui-fabric-react';
+import { Stack } from 'office-ui-fabric-react';
 import { COLUMN } from './static/const';
 import { EXPERIMENT, TRIALS } from './static/datamodel';
 import NavCon from './components/NavCon';
@@ -31,15 +31,15 @@ class App extends React.Component<AppProps, AppState> {
         };
     }
 
-    async componentDidMount() {
-        await Promise.all([ EXPERIMENT.init(), TRIALS.init() ]);
+    async componentDidMount(): Promise<void> {
+        await Promise.all([EXPERIMENT.init(), TRIALS.init()]);
         this.setState(state => ({ experimentUpdateBroadcast: state.experimentUpdateBroadcast + 1 }));
         this.setState(state => ({ trialsUpdateBroadcast: state.trialsUpdateBroadcast + 1 }));
         this.timerId = window.setTimeout(this.refresh, this.state.interval * 1000);
         this.setState({ metricGraphMode: (EXPERIMENT.optimizeMode === 'minimize' ? 'min' : 'max') });
     }
 
-    changeInterval = (interval: number) => {
+    changeInterval = (interval: number): void => {
         this.setState({ interval });
         if (this.timerId === null && interval !== 0) {
             window.setTimeout(this.refresh);
@@ -49,29 +49,28 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     // TODO: use local storage
-    changeColumn = (columnList: Array<string>) => {
+    changeColumn = (columnList: Array<string>): void => {
         this.setState({ columnList: columnList });
     }
 
-    changeMetricGraphMode = (val: 'max' | 'min') => {
+    changeMetricGraphMode = (val: 'max' | 'min'): void => {
         this.setState({ metricGraphMode: val });
     }
 
-    render() {
+    render(): React.ReactNode {
         const { interval, columnList, experimentUpdateBroadcast, trialsUpdateBroadcast, metricGraphMode } = this.state;
         if (experimentUpdateBroadcast === 0 || trialsUpdateBroadcast === 0) {
             return null;  // TODO: render a loading page
         }
         const reactPropsChildren = React.Children.map(this.props.children, child =>
             React.cloneElement(
-                // tslint:disable-next-line:no-any
                 child as React.ReactElement<any>, {
-                    interval,
-                    columnList, changeColumn: this.changeColumn,
-                    experimentUpdateBroadcast,
-                    trialsUpdateBroadcast,
-                    metricGraphMode, changeMetricGraphMode: this.changeMetricGraphMode
-                })
+                interval,
+                columnList, changeColumn: this.changeColumn,
+                experimentUpdateBroadcast,
+                trialsUpdateBroadcast,
+                metricGraphMode, changeMetricGraphMode: this.changeMetricGraphMode
+            })
         );
 
         return (
@@ -91,8 +90,8 @@ class App extends React.Component<AppProps, AppState> {
         );
     }
 
-    private refresh = async () => {
-        const [ experimentUpdated, trialsUpdated ] = await Promise.all([ EXPERIMENT.update(), TRIALS.update() ]);
+    private refresh = async (): Promise<void> => {
+        const [experimentUpdated, trialsUpdated] = await Promise.all([EXPERIMENT.update(), TRIALS.update()]);
         if (experimentUpdated) {
             this.setState(state => ({ experimentUpdateBroadcast: state.experimentUpdateBroadcast + 1 }));
         }
@@ -100,7 +99,7 @@ class App extends React.Component<AppProps, AppState> {
             this.setState(state => ({ trialsUpdateBroadcast: state.trialsUpdateBroadcast + 1 }));
         }
 
-        if ([ 'DONE', 'ERROR', 'STOPPED' ].includes(EXPERIMENT.status)) {
+        if (['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status)) {
             // experiment finished, refresh once more to ensure consistency
             if (this.state.interval > 0) {
                 this.setState({ interval: 0 });
@@ -112,7 +111,7 @@ class App extends React.Component<AppProps, AppState> {
         }
     }
 
-    private async lastRefresh() {
+    private async lastRefresh(): Promise<void> {
         await EXPERIMENT.update();
         await TRIALS.update(true);
         this.setState(state => ({ experimentUpdateBroadcast: state.experimentUpdateBroadcast + 1 }));

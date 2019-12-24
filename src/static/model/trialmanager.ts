@@ -1,7 +1,20 @@
 import axios from 'axios';
 import { MANAGER_IP, METRIC_GROUP_UPDATE_THRESHOLD, METRIC_GROUP_UPDATE_SIZE } from '../const';
-import { MetricDataRecord, TableRecord, TrialJobInfo } from '../interface';
 import { Trial } from './trial';
+import { MetricDataRecord, TableRecord, TrialJobInfo } from '../interface'; // eslint-disable-line no-unused-vars
+
+function groupMetricsByTrial(metrics: MetricDataRecord[]): Map<string, MetricDataRecord[]> {
+    const ret = new Map<string, MetricDataRecord[]>();
+    for (const metric of metrics) {
+        if (ret.has(metric.trialJobId)) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            ret.get(metric.trialJobId)!.push(metric);
+        } else {
+            ret.set(metric.trialJobId, [ metric ]);
+        }
+    }
+    return ret;
+}
 
 class TrialManager {
     private trials: Map<string, Trial> = new Map<string, Trial>();
@@ -12,6 +25,7 @@ class TrialManager {
     private batchUpdatedAfterReading: boolean = false;
 
     public async init(): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         while (!this.infoInitialized || !this.metricInitialized) {
             await this.update();
         }
@@ -23,14 +37,17 @@ class TrialManager {
     }
 
     public getTrial(trialId: string): Trial {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.trials.get(trialId)!;
     }
 
     public getTrials(trialIds: string[]): Trial[] {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return trialIds.map(trialId => this.trials.get(trialId)!);
     }
 
     public table(trialIds: string[]): TableRecord[] {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return trialIds.map(trialId => this.trials.get(trialId)!.tableRecord);
     }
 
@@ -49,6 +66,7 @@ class TrialManager {
     }
 
     public sort(): Trial[] {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.filter(trial => trial.sortable).sort((trial1, trial2) => trial1.compareAccuracy(trial2)!);
     }
 
@@ -65,6 +83,7 @@ class TrialManager {
         ]);
         for (const trial of this.trials.values()) {
             if (trial.initialized()) {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 cnt.set(trial.info.status, cnt.get(trial.info.status)! + 1);
             }
         }
@@ -77,6 +96,7 @@ class TrialManager {
         if (response.status === 200) {
             for (const info of response.data as TrialJobInfo[]) {
                 if (this.trials.has(info.id)) {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     updated = this.trials.get(info.id)!.updateTrialJobInfo(info) || updated;
                 } else {
                     this.trials.set(info.id, new Trial(info, undefined));
@@ -129,6 +149,7 @@ class TrialManager {
         let updated = false;
         for (const [ trialId, metrics ] of groupMetricsByTrial(allMetrics).entries()) {
             if (this.trials.has(trialId)) {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const trial = this.trials.get(trialId)!;
                 updated = (latestOnly ? trial.updateLatestMetrics(metrics) : trial.updateMetrics(metrics)) || updated;
             } else {
@@ -139,18 +160,6 @@ class TrialManager {
         this.metricInitialized = true;
         return updated;
     }
-}
-
-function groupMetricsByTrial(metrics: MetricDataRecord[]): Map<string, MetricDataRecord[]> {
-    const ret = new Map<string, MetricDataRecord[]>();
-    for (const metric of metrics) {
-        if (ret.has(metric.trialJobId)) {
-            ret.get(metric.trialJobId)!.push(metric);
-        } else {
-            ret.set(metric.trialJobId, [ metric ]);
-        }
-    }
-    return ret;
 }
 
 export { TrialManager };
