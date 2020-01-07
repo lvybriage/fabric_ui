@@ -102,7 +102,7 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
                             style={{ height: logDrawerHeight, minHeight: 190 }}
                         >
                             {/* <PivotItem headerText={this.dispatcherHTML()} key="dispatcher" onLinkClick> */}
-                            <PivotItem headerText="dispatcherHTML" key="dispatcher">
+                            <PivotItem headerText="Dispatcher Log" key="dispatcher">
                                 <MonacoHTML
                                     content={dispatcherLogStr || 'Loading...'}
                                     loading={isLoading}
@@ -117,7 +117,7 @@ class LogDrawer extends React.Component<LogDrawerProps, LogDrawerState> {
                                     </StackItem>
                                 </Stack>
                             </PivotItem>
-                            <PivotItem headerText="nniManager" key="nnimanager">
+                            <PivotItem headerText="NNIManager Log" key="nnimanager">
                                 {/* <TabPane tab="NNImanager Log" key="nnimanager"> */}
                                 <MonacoHTML
                                     content={nniManagerLogStr || 'Loading...'}

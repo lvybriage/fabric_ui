@@ -10,9 +10,11 @@ import SearchSpace from './overview/SearchSpace';
 import BasicInfo from './overview/BasicInfo';
 import TrialInfo from './overview/TrialProfile';
 import '../static/style/overview.scss';
+import '../static/style/logPath.scss';
 
 interface OverviewProps {
     experimentUpdateBroadcast: number;
+    test: number;
     trialsUpdateBroadcast: number;
     metricGraphMode: 'max' | 'min';
     changeMetricGraphMode: (val: 'max' | 'min') => void;
@@ -49,8 +51,7 @@ class Overview extends React.Component<OverviewProps, OverviewState> {
 
     render(): React.ReactNode {
         const { trialConcurrency } = this.state;
-        const { experimentUpdateBroadcast, metricGraphMode } = this.props;
-
+        const { experimentUpdateBroadcast, metricGraphMode, test } = this.props;
         const searchSpace = this.convertSearchSpace();
         const bestTrials = this.findBestTrials();
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -128,7 +129,8 @@ class Overview extends React.Component<OverviewProps, OverviewState> {
                                 />
                             </Stack>
                         </StackItem>
-                        <StackItem grow={70}>
+                        <StackItem grow={70} styles={{root: {width: 500}}}>
+                        {/* <StackItem grow={70}> */}
                             <div id="succeTable"><SuccessTable trialIds={bestTrials.map(trial => trial.info.id)} /></div>
                         </StackItem>
                     </Stack>

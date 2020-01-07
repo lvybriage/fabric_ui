@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 import Overview from './components/Overview';
 import TrialsDetail from './components/TrialsDetail';
 import './index.css';
@@ -9,15 +9,14 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   (
-    <BrowserRouter>
-      <Switch>
-        <App path="/">
-          <Route path="/oview" component={Overview} ></Route>
-          <Route path="/detail" component={TrialsDetail}></Route>
-          <Redirect to="/oview"/>
-        </App>
-      </Switch>
-    </BrowserRouter>
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRedirect to="/oview" />
+        <Route path="/oview" component={Overview} />
+        <Route path="/detail" component={TrialsDetail} />
+      </Route>
+    </Router>
+
   ),
   document.getElementById('root')
 );

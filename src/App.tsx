@@ -5,22 +5,24 @@ import { EXPERIMENT, TRIALS } from './static/datamodel';
 import NavCon from './components/NavCon';
 import './App.css';
 
-interface AppProps {
-    path: string;
-}
+// interface AppProps {
+//     path: string;
+// }
 
 interface AppState {
     interval: number;
-    columnList: Array<string>;
+    columnList: string[];
     experimentUpdateBroadcast: number;
     trialsUpdateBroadcast: number;
     metricGraphMode: 'max' | 'min'; // tuner's optimize_mode filed
 }
 
-class App extends React.Component<AppProps, AppState> {
+// class App extends React.Component<AppProps, AppState> {
+class App extends React.Component<{}, AppState> {
 
     private timerId!: number | null;
-    constructor(props: AppProps) {
+    // constructor(props: AppProps) {
+    constructor(props: {}) {
         super(props);
         this.state = {
             interval: 10, // sendons
@@ -49,7 +51,7 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     // TODO: use local storage
-    changeColumn = (columnList: Array<string>): void => {
+    changeColumn = (columnList: string[]): void => {
         this.setState({ columnList: columnList });
     }
 
@@ -62,21 +64,25 @@ class App extends React.Component<AppProps, AppState> {
         if (experimentUpdateBroadcast === 0 || trialsUpdateBroadcast === 0) {
             return null;  // TODO: render a loading page
         }
-        const reactPropsChildren = React.Children.map(this.props.children, child =>
-            React.cloneElement(
+        const reactPropsChildren = React.Children.map(this.props.children, child => {
+            return React.cloneElement(
                 child as React.ReactElement<any>, {
-                interval,
-                columnList, changeColumn: this.changeColumn,
-                experimentUpdateBroadcast,
-                trialsUpdateBroadcast,
-                metricGraphMode, changeMetricGraphMode: this.changeMetricGraphMode
+                test: 1,
+                interval: interval,
+                columnList: columnList,
+                changeColumn: this.changeColumn,
+                experimentUpdateBroadcast: experimentUpdateBroadcast,
+                trialsUpdateBroadcast: trialsUpdateBroadcast,
+                metricGraphMode: metricGraphMode,
+                changeMetricGraphMode: this.changeMetricGraphMode
             })
-        );
+        });
 
         return (
             <Stack className="nni" style={{ minHeight: window.innerHeight }}>
                 <div className="header">
                     <div className="headerCon">
+                        {/* <NavCon changeInterval={this.changeInterval}/> */}
                         <NavCon />
                     </div>
                 </div>

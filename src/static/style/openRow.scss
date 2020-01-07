@@ -1,0 +1,47 @@
+/* website theme color */
+$color: #0071bc;
+/* bg light grey */
+$bgColor: #f2f2f2;
+.openRowContent{
+    min-width: 150px;
+    margin-left: 15px;
+    background-color: $bgColor;
+}
+
+.trialLog{
+    white-space: normal;
+    color: #212121;
+}
+#trialLogContent{
+    .ant-input-disabled{
+        color: #212121;
+        background-color: #fff;
+        cursor: pointer;
+        border: none;
+    }
+    .logcontent{
+        height: 100%;
+    }
+}
+
+#description{
+    .bgHyper ul{
+        background-color: #fff !important;
+        margin-bottom: 12px;
+        font-size: 14px;
+    }
+    .copy{
+        Button{
+            background-color: #ccc;
+            color: #191919;
+            border: none;
+            outline: none;
+        }
+        Button:hover{
+            background-color: #ccc;
+            color: #191919;
+            border: none;
+            outline: none;
+        }
+    }
+}

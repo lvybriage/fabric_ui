@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-    Stack, Pivot, PivotItem,
+    Stack, Pivot, PivotItem, StackItem, PrimaryButton, Dropdown, IDropdownOption
 } from 'office-ui-fabric-react';
 import { EXPERIMENT, TRIALS } from '../static/datamodel';
 import { Trial } from '../static/model/trial'; // eslint-disable-line no-unused-vars
@@ -10,7 +10,7 @@ import Title1 from './overview/Title1';
 import Para from './trial-detail/Para';
 import Intermediate from './trial-detail/Intermediate';
 import { a } from './Buttons/Icon';
-// import TableList from './trial-detail/TableList';
+import TableList from './trial-detail/TableList';
 import '../static/style/trialsDetail.scss';
 import '../static/style/search.scss';
 
@@ -22,8 +22,8 @@ interface TrialDetailState {
 }
 
 interface TrialsDetailProps {
-    columnList: Array<string>;
-    changeColumn: (val: Array<string>) => void;
+    columnList: string[];
+    changeColumn: (val: string[]) => void;
     experimentUpdateBroacast: number;
     trialsUpdateBroadcast: number;
 }
@@ -33,8 +33,8 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
     public interAccuracy = 0;
     public interAllTableList = 2;
 
-    // public tableList!: TableList | null;
-    // public searchInput: HTMLInputElement | null;
+    public tableList!: TableList | null;
+    public searchInput!: HTMLInputElement | null;
 
     private titleOfacc = (
         <Title1 text="Default metric" icon="3.png" />
@@ -60,7 +60,7 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
         this.state = {
             tablePageSize: 20,
             whichGraph: '1',
-            searchType: 'id',
+            searchType: 'Id',
             // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/explicit-function-return-type
             searchFilter: trial => true
         };
@@ -95,33 +95,50 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
         this.setState({ searchFilter: filter });
     }
 
-    handleTablePageSizeSelect = (value: string): void => {
-        this.setState({ tablePageSize: value === 'all' ? -1 : parseInt(value, 10) });
+    handleTablePageSizeSelect = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption | undefined): void => {
+        if (item !== undefined) {
+            console.info(item.text); // eslint-disable-line
+            this.setState({ tablePageSize: item.text === 'all' ? -1 : parseInt(item.text, 10) });
+        }
     }
 
     handleWhichTabs = (activeKey: string): void => {
         this.setState({ whichGraph: activeKey });
     }
 
-    // updateSearchFilterType = (value: string) => {
-    //     // clear input value and re-render table
-    //     if (this.searchInput !== null) {
-    //         this.searchInput.value = '';
-    //     }
-    //     this.setState({ searchType: value });
-    // }
+    updateSearchFilterType = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption | undefined): void => {
+        // clear input value and re-render table
+        if (item !== undefined) {
+            if (this.searchInput !== null) {
+                this.searchInput.value = '';
+            }
+            // console.info(item.text); // eslint-disable-line
+            this.setState(() => ({ searchType: item.text }));
+        }
+    }
 
     render(): React.ReactNode {
-        // const { tablePageSize, whichGraph } = this.state;
-        const { whichGraph } = this.state;
-        // const { columnList, changeColumn } = this.props;
+        const { tablePageSize, whichGraph, searchType } = this.state;
+        const { columnList, changeColumn } = this.props;
         const source = TRIALS.filter(this.state.searchFilter);
         const trialIds = TRIALS.filter(this.state.searchFilter).map(trial => trial.id);
+        const options = [
+            { key: '20', text: '20' },
+            { key: '50', text: '50' },
+            { key: '100', text: '100' },
+            { key: 'all', text: 'all' },
+        ];
+        const searchOptions = [
+            { key: 'Id', text: 'Id' },
+            { key: 'Trial No.', text: 'Trial No.' },
+            { key: 'Status', text: 'Status' },
+            { key: 'Parameters', text: 'Parameters' },
+        ];
         return (
             <div>
                 <div className="trial" id="tabsty">
                     {/* <Pivot onChange={this.handleWhichTabs}> */}
-                    <Pivot defaultSelectedKey={"3"}>
+                    <Pivot defaultSelectedKey={"0"}>
                         {/* <PivotItem tab={this.titleOfacc} key="1"> */}
                         <PivotItem headerText="Default metric" itemIcon="Recent" key="1">
                             <Stack className="graph">
@@ -156,60 +173,59 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
                 </div>
                 {/* trial table list */}
                 <Title1 text="Trial jobs" icon="6.png" />
-                {/* <Stack className="allList">
-                    <Col span={10}>
-                        <span>Show</span>
-                        <Select
-                            className="entry"
-                            onSelect={this.handleTablePageSizeSelect}
-                            defaultValue="20"
-                        >
-                            <Option value="20">20</Option>
-                            <Option value="50">50</Option>
-                            <Option value="100">100</Option>
-                            <Option value="all">All</Option>
-                        </Select>
-                        <span>entries</span>
-                    </Col> */}
-                {/* <Col span={14} className="right">
-                        <Button
-                            className="common"
-                            onClick={() => { if (this.tableList) { this.tableList.addColumn(); }}}
-                        >
-                            Add column
-                        </Button>
-                        <Button
-                            className="mediateBtn common"
-                            // use child-component tableList's function, the function is in child-component.
-                            onClick={() => { if (this.tableList) { this.tableList.compareBtn(); }}}
-                        >
-                            Compare
-                        </Button>
-                        <Select defaultValue="id" className="filter" onSelect={this.updateSearchFilterType}>
-                            <Option value="id">Id</Option>
-                            <Option value="Trial No.">Trial No.</Option>
-                            <Option value="status">Status</Option>
-                            <Option value="parameters">Parameters</Option>
-                        </Select>
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder={`Search by ${this.state.searchType}`}
-                            onChange={this.searchTrial}
-                            style={{ width: 230 }}
-                            ref={text => (this.searchInput) = text}
-                        />
-                    </Col>
-                 */}
-                {/* </Stack> */}
-                {/* <TableList
+                <Stack horizontal className="allList">
+                    <StackItem grow={50}>
+                        <Stack horizontal>
+                            <span>Show</span>
+                            <Dropdown
+                                selectedKey={tablePageSize ? tablePageSize.toString() : undefined}
+                                defaultSelectedKeys={['20']}
+                                options={options}
+                                onChange={this.handleTablePageSizeSelect}
+                                styles={{root: {width: 80}}}
+                            />
+                            <span>entries</span>
+                        </Stack>
+                    </StackItem>
+                    <StackItem grow={50}>
+                        <Stack horizontal horizontalAlign="end">
+                            <PrimaryButton
+                                onClick={(): void => { if (this.tableList) { this.tableList.addColumn(); } }}
+                            >
+                                Add column
+                            </PrimaryButton>
+                            <PrimaryButton
+                                // use child-component tableList's function, the function is in child-component.
+                                onClick={(): void => { if (this.tableList) { this.tableList.compareBtn(); } }}
+                            >
+                                Compare
+                            </PrimaryButton>
+                            <Dropdown
+                                selectedKey={searchType}
+                                options={searchOptions}
+                                onChange={this.updateSearchFilterType}
+                                styles={{root: {width: 150}}}
+                            />
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder={`Search by ${this.state.searchType}`}
+                                onChange={this.searchTrial}
+                                style={{ width: 230 }}
+                                ref={(text): any => (this.searchInput) = text}
+                            />
+                        </Stack>
+                    </StackItem>
+                </Stack>
+                <TableList
                     pageSize={tablePageSize}
                     tableSource={source.map(trial => trial.tableRecord)}
                     columnList={columnList}
                     changeColumn={changeColumn}
                     trialsUpdateBroadcast={this.props.trialsUpdateBroadcast}
-                    ref={(tabList) => this.tableList = tabList}
-                /> */}
+                    // TODO: change any to specific type
+                    ref={(tabList): any => this.tableList = tabList}
+                />
             </div>
         );
     }
