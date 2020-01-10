@@ -3,7 +3,8 @@ import ReactEcharts from 'echarts-for-react';
 import { filterByStatus } from '../../static/function';
 import {
     Stack, PrimaryButton, Dropdown,
-    IDropdownOption } from 'office-ui-fabric-react'; // eslint-disable-line no-unused-vars
+    IDropdownOption, 
+    DefaultButton} from 'office-ui-fabric-react'; // eslint-disable-line no-unused-vars
 import { ParaObj, Dimobj, TableObj } from '../../static/interface'; // eslint-disable-line no-unused-vars
 import 'echarts/lib/chart/parallel';
 import 'echarts/lib/component/tooltip';

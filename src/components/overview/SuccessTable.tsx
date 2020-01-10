@@ -1,14 +1,13 @@
 import * as React from 'react';
-import Table from 'rc-table';
-import { DetailsList, DetailsRow, IDetailsListProps, IDetailsRowProps, IColumn, DetailsListLayoutMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { createListItems, IExampleItem } from '@uifabric/example-data';
+import PropTypes from 'prop-types';
+import { DetailsList, IDetailsListProps } from 'office-ui-fabric-react';
 import DefaultMetric from '../public-child/DefaultMetric';
-import OpenRow from '../public-child/OpenRow';
+import Details from './Details';
 import { convertDuration } from '../../static/function';
 import { TRIALS } from '../../static/datamodel';
-import '../../static/style/succTable.scss';
-import { hiddenContentStyle } from 'office-ui-fabric-react';
+// import '../../static/style/succTable.scss';
 import '../../static/style/openRow.scss';
+
 interface SuccessTableProps {
     trialIds: string[];
 }
@@ -20,131 +19,82 @@ interface SuccessTableState {
 class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState> {
     constructor(props: SuccessTableProps) {
         super(props);
-        this.state = { isExpand: false };
     }
 
     private _onRenderRow: IDetailsListProps['onRenderRow'] = props => {
         if (props) {
-            const { isExpand } = this.state;
-            // const [isExpand, setIsExpand] = React.useState(false);
-            // console.info(props); // eslint-disable-line
-            return (
-                <div>
-                    <DetailsRow
-                        {...props}
-                        // onClick={() => this.setState(() => ({isExpand: !isExpand}))} // eslint-disable-line
-                        // collapseAllVisibility={}
-                        // {...divProps}
-                        onRenderCheck={(props) => <div onClick={() => this.setState(() => ({ isExpand: !isExpand }))}>＋</div>}
-                    >
-                    </DetailsRow>
-                    {isExpand && <OpenRow trialId={props.item.id} />}
-                </div>
-            );
-        }
-        return null;
-    };
-    /* test */
-    private _onRenderRowCopy: IDetailsListProps['onRenderRow'] = props => {
-        if (props) {
-            console.info(props); // eslint-disable-line
-            return (
-                <div>
-                    <DetailsRow
-                        {...props}
-                    >
-                    </DetailsRow>
-                </div>
-            );
+            return <Details detailsProps={props} />;
         }
         return null;
     };
 
     render(): React.ReactNode {
-        /* test */
+
         const columns = [
             {
                 name: 'Trial No.',
                 key: 'sequenceId',
                 fieldName: 'sequenceId',
-                minWidth: 140,
-                onRender() {
-                    return <div>hello</div>
+                minWidth: 80,
+                maxWidth: 80,
+                onRender(item: any) {
+                    return <div>{item.sequenceId}</div>
                 }
             }, {
                 name: 'ID',
                 key: 'id',
                 fieldName: 'id',
-                minWidth: 60
+                minWidth: 80,
+                className: 'tableHead leftTitle',
+                render: (item: any) => {
+                    return (
+                        <div>{item.id}</div>
+                    );
+                },
             }, {
                 name: 'Duration',
                 key: 'duration',
                 minWidth: 140,
-                fieldName: 'duration'
+                fieldName: 'duration',
+                render: (item: any) => {
+                    return (
+                        <div className="durationsty"><div>{convertDuration(item.duration)}</div></div>
+                    );
+                },
             }, {
                 name: 'Status',
                 key: 'status',
                 minWidth: 150,
-                fieldName: 'status'
+                fieldName: 'status',
+                render: (item: any) => {
+                    return (
+                        <div className={`${item.status} commonStyle`}>{item.status}</div>
+                    );
+                }
             }, {
                 name: 'Default metric',
                 key: 'accuracy',
                 fieldName: 'accuracy',
                 minWidth: 100,
+                render: (item: any) => {
+                    return (
+                        <DefaultMetric trialId={item.id} />
+                    );
+                }
             }
         ];
-        {/* test */ }
-        const source = [
-            {
-                sequenceId: 1,
-                id: 'qwe12',
-                duration: 1300,
-                status: 'succeed',
-                accuracy: 0.9876
-            },
-            {
-                sequenceId: 2,
-                id: 'abc12',
-                duration: 1300,
-                status: 'succeed',
-                accuracy: 0.96
-            },
-            {
-                sequenceId: 3,
-                id: 'ccc66',
-                duration: 1300,
-                status: 'succeed',
-                accuracy: 0.98
-            },
-        ];
-
-        // const source = JSON.parse(JSON.stringify(TRIALS.table(this.props.trialIds)));
-        // let useSource = [];
-        // const showColumn = ['sequenceId', 'id', 'duration', 'status', 'accuracy'];
-
-        // source.forEach(element => {
-        //     for(const key in element){
-        //         if(showColumn.includes(key)){
-        //             useSource.push({key: element[key]});
-        //         }
-        //     }
-        // });
+        
         return (
-            <div>
+            <div id="succTable">
+                {/* 只能render出column 数据render不上 */}
+                {/* done fixed: add fieldName 属性 */}
+                {/* TODO: lineHeight question */}
                 <DetailsList
+                    columns={columns}
                     items={TRIALS.table(this.props.trialIds)}
                     setKey="set"
                     onRenderRow={this._onRenderRow}
                 />
-                {/* test */}
-                {/* 只能render出column 数据render不上 */}
-                <DetailsList
-                    columns={columns}
-                    items={source}
-                    setKey="set"
-                    onRenderRow={this._onRenderRowCopy}
-                />
-
             </div>
         );
     }
