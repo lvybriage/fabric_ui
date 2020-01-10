@@ -14,6 +14,7 @@ ReactDOM.render(
         <IndexRedirect to="/oview" />
         <Route path="/oview" component={Overview} />
         <Route path="/detail" component={TrialsDetail} />
+        {/* test branch */}
       </Route>
     </Router>
 
