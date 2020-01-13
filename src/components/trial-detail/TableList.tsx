@@ -4,7 +4,7 @@ import ReactEcharts from 'echarts-for-react';
 // import { Row, Table, Button, Popconfirm, Modal, Checkbox, Select, Icon } from 'antd';
 import {
     Stack, Dropdown, DetailsList, IDetailsListProps,
-    PrimaryButton, Modal, IDropdownOption, IColumn
+    PrimaryButton, Modal, IDropdownOption, IColumn, PivotItem
 } from 'office-ui-fabric-react';
 import { completed, blocked, copy } from '../Buttons/Icon';
 // import { ColumnProps } from 'antd/lib/table';
@@ -55,9 +55,9 @@ interface TableListState {
     copyTrialId: string; // user copy trial to submit a new customized trial
     isCalloutVisible: boolean; // kill job button callout [kill or not kill job window]
     intermediateKeys: string[]; // intermeidate modal: which key is choosed.
-    isExpand: boolean;
     modalIntermediateWidth: number;
     modalIntermediateHeight: number;
+    isEx: boolean;
 }
 
 interface ColumnIndex {
@@ -183,7 +183,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
     public intervalTrialLog = 10;
     public _trialId!: string;
     // public tables: Table<TableRecord> | null;
-
+    public divExpand!: Details | null;
     constructor(props: TableListProps) {
         super(props);
 
@@ -202,7 +202,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
             isCalloutVisible: false,
             copyTrialId: '',
             intermediateKeys: ['default'],
-            isExpand: false,
+            isEx: false,
             modalIntermediateWidth: window.innerWidth,
             modalIntermediateHeight: window.innerHeight
         };
@@ -332,12 +332,25 @@ class TableList extends React.Component<TableListProps, TableListState> {
         }));
     }
 
+    // changeIsEx 
+    changeIsEx = () => {
+        const { isEx } = this.state;
+        this.setState(() => ({ isEx: !isEx }));
+    }
+
     private _onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+
         if (props) {
-            return <Details detailsProps={props} />;
+            return <Details detailsProps={props} ref={div => (this.divExpand) = div} />;
         }
         return null;
     };
+
+    // writeEvent = (key: number): void => {
+    //     // const writeEvent = (key: number): void | undefined => {
+    //     console.info(key); // eslint-disable-line
+    //     this.changeIsEx();
+    // }
 
     componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
@@ -363,7 +376,8 @@ class TableList extends React.Component<TableListProps, TableListState> {
         // };
         // [supportCustomizedTrial: true]
         const supportCustomizedTrial = (EXPERIMENT.multiPhase === true) ? false : true;
-        const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
+        // 这行最后要注释回来
+        // const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
 
         const showColumn: IColumn[] = [];
 
@@ -398,15 +412,41 @@ class TableList extends React.Component<TableListProps, TableListState> {
                 }
             }
         }
+
+        // for test open row
+        const OpenRowColumnConfig: any = {
+            name: 'Open',
+            key: 'open',
+            fieldName: 'open',
+            minWidth: 50,
+            isResizable: true,
+            onRender: (item): React.ReactNode => (
+                <div>
+                    {/* <div onClick={this.bind(this, item.sequenceId)}>+</div> */}
+                    {/* <div onClick={() => {if (this.divExpand) { alert(10); }}}>+</div> */}
+                    <div onClick={() => {
+                        if (this.divExpand) { 
+                            this.divExpand.isOpenExpandRow();
+                        }
+                    }}>
+                        Hello world
+                        </div>
+                </div>
+            )
+        };
         for (const item of columnList) {
             const paraColumn = item.match(/ \(search space\)$/);
             let cc;
             if (paraColumn !== null) {
                 cc = paraColumn.input;
             }
+
             switch (item) {
                 case 'Trial No.':
                     showColumn.push(SequenceIdColumnConfig);
+                    break;
+                case 'Open':
+                    showColumn.push(OpenRowColumnConfig);
                     break;
                 case 'ID':
                     showColumn.push(IdColumnConfig);
@@ -474,8 +514,8 @@ class TableList extends React.Component<TableListProps, TableListState> {
 
                                             <PrimaryButton
                                                 title="Customized trial"
-                                                onClick={this.showIntermediateModal.bind(this, record.id)}
-                                                disabled={disabledAddCustomizedTrial}
+                                                onClick={this.setCustomizedTrial.bind(this, record.id)}
+                                            // disabled={disabledAddCustomizedTrial}
                                             >
                                                 {copy}
                                             </PrimaryButton>
@@ -579,20 +619,6 @@ class TableList extends React.Component<TableListProps, TableListState> {
                         changeColumn={this.props.changeColumn}
                     />
                 }
-                {/* <Modal
-                    isOpen={isShowColumn}
-                    onDismiss={this.hideShowColumnModal}
-                    // styles={{ root: { width: '40%' } }}
-                >
-                    addColumn Modal
-                    <CheckboxGroup
-                        options={showTitle}
-                        defaultValue={columnList}
-                        // defaultValue={columnSelected}
-                        onChange={this.selectedColumn}
-                        className="titleColumn"
-                    />
-                </Modal> */}
                 {/* compare trials based message */}
                 {/* <Compare compareRows={selectRows} visible={isShowCompareModal} cancelFunc={this.hideCompareModal} /> */}
                 {/* clone trial parameters and could submit a customized trial */}

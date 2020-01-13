@@ -1,7 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
-// import { Stack, StackItem, Input, Modal, Form, Button, Icon } from 'antd';
 import { Stack, Modal, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
+// import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { MANAGER_IP } from '../../static/const';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { warining, errorBadge, completed } from '../Buttons/Icon';
@@ -153,15 +154,35 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
             + ' you sure you want to continue submitting?';
         return (
             <Stack>
+                {/* new code start */}
+                <Dialog
+                    hidden={true} // required field!
+                    dialogContentProps={{
+                        type: DialogType.largeHeader,
+                        title: 'Customized trial setting',
+                        subText: 'Your can chose which columns you want to see in the table.'
+                    }}
+                    modalProps={{
+                        isBlocking: false,
+                        styles: { main: { maxWidth: 450 } }
+                    }}
+                >
+                    Hello world
+                    <DialogFooter>
+                        <PrimaryButton text="Submit" />
+                        {/* <PrimaryButton text="Submit" onClick={this.addNewTrial} /> */}
+                        <DefaultButton text="Cancel" onClick={this.props.closeCustomizeModal} />
+                    </DialogFooter>
+                </Dialog>
+                {/* new code end */}
                 {/* form: search space */}
-                <Modal
-                    // title="Customized trial setting"
+                {/* <Modal
                     isOpen={visible}
-                    onDismiss={closeCustomizeModal}
-                // centered={true}
+                    onDismiss={closeCustomizeModal} 
+                centered={true}
                 >
                     {/* search space form */}
-                    {/* <Stack className="hyper-box">
+                {/* <Stack className="hyper-box">
                         <Form>
                             {
                                 Object.keys(copyTrialParameter).map(item => (
@@ -195,10 +216,10 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
                         </Form>
                     </Stack>
                      */}
-                    <Stack className="modal-button">
+                {/* <Stack className="modal-button">
                         <PrimaryButton
                             className="tableButton distance"
-                            // onClick={this.addNewTrial}
+                        // onClick={this.addNewTrial}
                         >
                             Submit
                         </PrimaryButton>
@@ -208,9 +229,9 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
                         >
                             Cancel
                         </PrimaryButton>
-                    </Stack>
-                    {/* control button */}
-                </Modal>
+                    </Stack> */}
+                {/* control button */}
+                {/* </Modal> */}
                 {/* clone: prompt succeed or failed */}
                 <Modal
                     isOpen={isShowSubmitSucceed}

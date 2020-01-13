@@ -32,10 +32,13 @@ const DRAWEROPTION = {
 };
 const OPERATION = 'Operation';
 // defatult selected column
-const COLUMN = ['Trial No.', 'ID', 'Duration', 'Status', 'Default', OPERATION];
+// Open: + open row
+const COLUMN = ['Open', 'Trial No.', 'ID', 'Duration', 'Status', 'Default', OPERATION];
 // all choice column !dictory final
-const COLUMNPro = ['Trial No.', 'ID', 'Start Time', 'End Time', 'Duration', 'Status',
+const COLUMNPro = ['Open', 'Trial No.', 'ID', 'Start Time', 'End Time', 'Duration', 'Status',
 'Intermediate result', 'Default', OPERATION];
+// for test open row
+
 export {
     MANAGER_IP, DOWNLOAD_IP, trialJobStatus, COLUMNPro, WEBUIDOC,
     CONTROLTYPE, MONACO, COLUMN, DRAWEROPTION, OPERATION,
