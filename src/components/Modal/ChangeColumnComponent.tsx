@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { COLUMN_INDEX } from '../../static/const';
+import { OPERATION } from '../../static/const';
 
 interface KillJobState {
     userSelectColumnList: string[]; // 支持改变，实时保存用户的操作
@@ -53,9 +53,43 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
         // 保留用户选择的column 改变props
         const { userSelectColumnList } = this.state;
         const { showColumn } = this.props;
-        // TODO: 保证顺次展示Trial No. | ID | Duration | Start Time | End Time | ...
-        // ['startTime', 'endTime', 'Trial No.', 'ID', 'Duration']
-        this.props.changeColumn(userSelectColumnList);
+        console.info('showColumn', showColumn); // eslint-disable-line
+        // 保证顺次展示Trial No. | ID | Duration | Start Time | End Time | ...
+        const sortColumn: string[] = [];
+        /**
+         * 
+         * search space 顺序比较乱
+            showColumn.map(item => {
+                userSelectColumnList.map(key => {
+                    if (item === key || key.includes('search space')) {
+                        if (!sortColumn.includes(key)) {
+                            sortColumn.push(key);
+                        }
+                    }
+                });
+            });
+         */
+        // 先不放[Operation] [search space]类的column
+        showColumn.map(item => {
+            userSelectColumnList.map(key => {
+                if (item === key && item !== OPERATION) {
+                    sortColumn.push(key);
+                }
+            });
+        });
+        // 处理search space key
+        userSelectColumnList.map(index => {
+            if (index.includes('search space')) {
+                if (!sortColumn.includes(index)) {
+                    sortColumn.push(index);
+                }
+            }
+        });
+        // 处理Operation
+        if (userSelectColumnList.includes(OPERATION)) {
+            sortColumn.push(OPERATION);
+        }
+        this.props.changeColumn(sortColumn);
         this.hideDialog(); // 隐藏dialog
     }
 
