@@ -363,7 +363,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
         // };
         // [supportCustomizedTrial: true]
         const supportCustomizedTrial = (EXPERIMENT.multiPhase === true) ? false : true;
-        const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
+        // const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
 
         const showColumn: IColumn[] = [];
 
@@ -474,8 +474,8 @@ class TableList extends React.Component<TableListProps, TableListState> {
 
                                             <PrimaryButton
                                                 title="Customized trial"
-                                                onClick={this.showIntermediateModal.bind(this, record.id)}
-                                                disabled={disabledAddCustomizedTrial}
+                                                onClick={this.setCustomizedTrial.bind(this, record.id)}
+                                                // disabled={disabledAddCustomizedTrial}
                                             >
                                                 {copy}
                                             </PrimaryButton>
