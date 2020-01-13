@@ -8,7 +8,7 @@ import {
 } from 'office-ui-fabric-react';
 import { completed, blocked, copy } from '../Buttons/Icon';
 // import { ColumnProps } from 'antd/lib/table';
-import { MANAGER_IP, trialJobStatus, COLUMN_INDEX, COLUMNPro } from '../../static/const';
+import { MANAGER_IP, trialJobStatus, COLUMNPro } from '../../static/const';
 import { convertDuration, formatTimestamp, intermediateGraphOption } from '../../static/function';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { TableRecord } from '../../static/interface';
@@ -290,65 +290,6 @@ class TableList extends React.Component<TableListProps, TableListState> {
         // show user select check button
         this.setState(() => ({ isShowColumn: true }));
     }
-
-    // checkbox for coloumn
-    selectedColumn = (checkedValues: Array<string>): void => {
-        // 9: because have nine common column, 
-        // [Intermediate count, Start Time, End Time] is hidden by default
-        let count = 9;
-        const want: Array<object> = [];
-        const finalKeys: Array<string> = [];
-        const wantResult: Array<string> = [];
-        Object.keys(checkedValues).map(m => {
-            switch (checkedValues[m]) {
-                case 'Trial No.':
-                case 'ID':
-                case 'Start Time':
-                case 'End Time':
-                case 'Duration':
-                case 'Status':
-                case 'Operation':
-                case 'Default':
-                case 'Intermediate result':
-                    break;
-                default:
-                    finalKeys.push(checkedValues[m]);
-            }
-        });
-
-        Object.keys(finalKeys).map(n => {
-            want.push({
-                name: finalKeys[n],
-                index: count++
-            });
-        });
-
-        Object.keys(checkedValues).map(item => {
-            const temp = checkedValues[item];
-            Object.keys(COLUMN_INDEX).map(key => {
-                const index = COLUMN_INDEX[key];
-                if (index.name === temp) {
-                    want.push(index);
-                }
-            });
-        });
-
-        want.sort((a: any, b: any) => {
-            return a.index - b.index;
-        });
-
-        Object.keys(want).map(i => {
-            wantResult.push(want[i].name);
-        });
-
-        this.props.changeColumn(wantResult);
-    }
-
-    // openRow = (record: TableRecord): any => {
-    //     return (
-    //         <OpenRow trialId={record.id} />
-    //     );
-    // }
 
     fillSelectedRowsTostate = (selected: number[] | string[], selectedRows: Array<TableRecord>): void => {
         this.setState({ selectRows: selectedRows, selectedRowKeys: selected });
