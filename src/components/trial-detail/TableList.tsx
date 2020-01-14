@@ -1,20 +1,18 @@
 import * as React from 'react';
 import axios from 'axios';
 import ReactEcharts from 'echarts-for-react';
-// import { Row, Table, Button, Popconfirm, Modal, Checkbox, Select, Icon } from 'antd';
 import {
     Stack, Dropdown, DetailsList, IDetailsListProps,
-    PrimaryButton, Modal, IDropdownOption, IColumn
+    PrimaryButton, Modal, IDropdownOption, IColumn, Selection, SelectionMode
 } from 'office-ui-fabric-react';
 import { completed, blocked, copy } from '../Buttons/Icon';
-// import { ColumnProps } from 'antd/lib/table';
 import { MANAGER_IP, trialJobStatus, COLUMNPro } from '../../static/const';
 import { convertDuration, formatTimestamp, intermediateGraphOption } from '../../static/function';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { TableRecord } from '../../static/interface';
 import Details from '../overview/Details';
 import ChangeColumnComponent from '../Modal/ChangeColumnComponent';
-// import Compare from '../Modal/Compare';
+import Compare from '../Modal/Compare';
 import KillJob from '../Modal/Killjob';
 import Customize from '../Modal/CustomizedTrial';
 import '../../static/style/search.scss';
@@ -45,7 +43,7 @@ interface TableListState {
     modalVisible: boolean;
     isObjFinal: boolean;
     isShowColumn: boolean;
-    selectRows: Array<TableRecord>;
+    selectRows: Array<any>;
     isShowCompareModal: boolean;
     selectedRowKeys: string[] | number[];
     intermediateData: Array<object>; // a trial's intermediate results (include dict)
@@ -89,8 +87,8 @@ const SequenceIdColumnConfig: any = {
     key: 'sequenceId',
     fieldName: 'sequenceId',
     minWidth: 50,
-    isResizable: true,
     className: 'tableHead',
+    // onColumnClick: this._onColumnClick
     // sorter: (a, b) => a.sequenceId - b.sequenceId
 };
 
@@ -208,7 +206,9 @@ class TableList extends React.Component<TableListProps, TableListState> {
         };
     }
 
-    showIntermediateModal = async (id: string): Promise<void> => {
+    showIntermediateModal = async (id: string, event: React.SyntheticEvent<EventTarget>): Promise<void> => {
+        event.preventDefault();
+        event.stopPropagation();
         const res = await axios.get(`${MANAGER_IP}/metric-data/${id}`);
         if (res.status === 200) {
             const intermediateArr: number[] = [];
@@ -311,7 +311,9 @@ class TableList extends React.Component<TableListProps, TableListState> {
     }
 
     // open customized trial modal
-    setCustomizedTrial = (trialId: string): void => {
+    setCustomizedTrial = (trialId: string, event: React.SyntheticEvent<EventTarget>): void => {
+        event.preventDefault();
+        event.stopPropagation();
         this.setState({
             isShowCustomizedModal: true,
             copyTrialId: trialId
@@ -342,6 +344,45 @@ class TableList extends React.Component<TableListProps, TableListState> {
     componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
     }
+    test = (item?: any, index?: number) => {
+        console.info(item); // eslint-disable-line
+        console.info(index); // eslint-disable-line
+    }
+
+    _selection = new Selection({
+        onSelectionChanged: () => {
+            this.setState(() => ({ selectRows: this._selection.getSelection() }));
+            console.info(this._selection.getSelection()); // eslint-disable-line
+        }
+    });
+
+    // private _onColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn): void => {
+    //     const { tableSource, columnList } = this.props;
+    //     const newColumns: IColumn[] = columnList.slice();
+    //     const currColumn: IColumn = newColumns.filter(currCol => column.key === currCol.key)[0];
+    //     newColumns.forEach((newCol: IColumn) => {
+    //         if (newCol === currColumn) {
+    //             currColumn.isSortedDescending = !currColumn.isSortedDescending;
+    //             currColumn.isSorted = true;
+    //             // this.setState({
+    //             //     announcedMessage: `${currColumn.name} is sorted ${currColumn.isSortedDescending ? 'descending' : 'ascending'}`
+    //             // });
+    //         } else {
+    //             newCol.isSorted = false;
+    //             newCol.isSortedDescending = true;
+    //         }
+    //     });
+    //     const newItems =this. _copyAndSort(tableSource, currColumn.fieldName!, currColumn.isSortedDescending);
+    //     this.setState({
+    //         // columns: newColumns,
+    //         tableSource: newItems
+    //     });
+    // };
+
+    // _copyAndSort<T>(items: T[], columnKey: string, isSortedDescending?: boolean): T[] {
+    //     const key = columnKey as keyof T;
+    //     return items.slice(0).sort((a: T, b: T) => ((isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1));
+    // }
 
     render(): React.ReactNode {
         const {
@@ -355,15 +396,9 @@ class TableList extends React.Component<TableListProps, TableListState> {
             intermediateOtherKeys,
             isShowCustomizedModal, copyTrialId
         } = this.state;
-        // const rowSelection = {
-        //     selectedRowKeys: selectedRowKeys,
-        //     onChange: (selected: string[] | number[], selectedRows: Array<TableRecord>): void => {
-        //         this.fillSelectedRowsTostate(selected, selectedRows);
-        //     }
-        // };
         // [supportCustomizedTrial: true]
         const supportCustomizedTrial = (EXPERIMENT.multiPhase === true) ? false : true;
-        // const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
+        const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
 
         const showColumn: IColumn[] = [];
 
@@ -434,13 +469,14 @@ class TableList extends React.Component<TableListProps, TableListState> {
                         name: 'Operation',
                         key: 'operation',
                         fieldName: 'operation',
-                        minWidth: 200, // TODO: need to test 120
+                        minWidth: 120, // TODO: need to test 120
                         isResizable: true,
                         onRender: (record: any) => {
                             const trialStatus = record.status;
                             const flag: boolean = (trialStatus === 'RUNNING' || trialStatus === 'UNKNOWN') ? false : true;
+                            // const flag: boolean = (trialStatus === 'SUCCEEDED') ? false : true;
                             return (
-                                <Stack id="detail-button">
+                                <Stack id="detail-button" horizontal>
                                     {/* see intermediate result graph */}
                                     <PrimaryButton
                                         title="Intermediate"
@@ -457,25 +493,15 @@ class TableList extends React.Component<TableListProps, TableListState> {
                                             </PrimaryButton>
                                             :
                                             <KillJob trial={record} />
-                                        // TO DO
-                                        // <Popconfirm
-                                        //     title="Are you sure to cancel this trial?"
-                                        //     okText="Yes"
-                                        //     cancelText="No"
-                                        //     onConfirm={killJob.
-                                        //         bind(this, record.key, record.id, record.status)}
-                                        // >
-                                        // </Popconfirm>
                                     }
                                     {/* Add a new trial-customized trial */}
                                     {
                                         supportCustomizedTrial
                                             ?
-
                                             <PrimaryButton
                                                 title="Customized trial"
                                                 onClick={this.setCustomizedTrial.bind(this, record.id)}
-                                                // disabled={disabledAddCustomizedTrial}
+                                                disabled={disabledAddCustomizedTrial}
                                             >
                                                 {copy}
                                             </PrimaryButton>
@@ -527,6 +553,8 @@ class TableList extends React.Component<TableListProps, TableListState> {
                         items={tableSource}
                         setKey="set"
                         onRenderRow={this._onRenderRow}
+                        selectionMode={SelectionMode.multiple}
+                        selection={this._selection}
                     />
                     {/* Intermediate Result Modal */}
                     <Modal
@@ -579,22 +607,10 @@ class TableList extends React.Component<TableListProps, TableListState> {
                         changeColumn={this.props.changeColumn}
                     />
                 }
-                {/* <Modal
-                    isOpen={isShowColumn}
-                    onDismiss={this.hideShowColumnModal}
-                    // styles={{ root: { width: '40%' } }}
-                >
-                    addColumn Modal
-                    <CheckboxGroup
-                        options={showTitle}
-                        defaultValue={columnList}
-                        // defaultValue={columnSelected}
-                        onChange={this.selectedColumn}
-                        className="titleColumn"
-                    />
-                </Modal> */}
+
                 {/* compare trials based message */}
-                {/* <Compare compareRows={selectRows} visible={isShowCompareModal} cancelFunc={this.hideCompareModal} /> */}
+                {isShowCompareModal && <Compare compareStacks={selectRows} cancelFunc={this.hideCompareModal} />}
+                {/* {true && <Compare compareStacks={selectRows} cancelFunc={this.hideCompareModal} />} */}
                 {/* clone trial parameters and could submit a customized trial */}
                 <Customize
                     visible={isShowCustomizedModal}

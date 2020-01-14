@@ -77,20 +77,25 @@ class KillJob extends React.Component<KillJobProps, KillJobState> {
     }
 
     _onKill = (): void => {
-        this.setState({isCalloutVisible: false }, () => {
+        this.setState({ isCalloutVisible: false }, () => {
             const { trial } = this.props;
             killJob(trial.key, trial.id, trial.status);
         });
     }
 
+    openPromot = (event: React.SyntheticEvent<EventTarget>): void => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.setState({ isCalloutVisible: true });
+    }
+
     render(): React.ReactNode {
         const { isCalloutVisible } = this.state;
-        
+        const prompString = 'Are you sure to cancel this trial?';
         return (
             <div>
                 <div className={styles.buttonArea} ref={(menuButton): any => (this._menuButtonElement = menuButton)}>
-                    {/* <DefaultButton onClick={this._onDismiss} text={isCalloutVisible ? 'Hide FocusTrapCallout' : 'Show FocusTrapCallout'} /> */}
-                    <PrimaryButton title="kill">{blocked}</PrimaryButton>
+                    <PrimaryButton onClick={this.openPromot} title="kill">{blocked}</PrimaryButton>
                 </div>
                 {isCalloutVisible ? (
                     <div>
@@ -103,19 +108,17 @@ class KillJob extends React.Component<KillJobProps, KillJobState> {
                             setInitialFocus={true}
                         >
                             <div className={styles.header}>
-                                <p className={styles.title}>Callout title here</p>
+                                <p className={styles.title}>Kill trial</p>
                             </div>
                             <div className={styles.inner}>
                                 <div>
-                                    <p className={styles.subtext}>
-                                        Content is wrapped in a FocusTrapZone so that user cannot accidently tab out of this callout.
-                                    </p>
+                                    <p className={styles.subtext}>{prompString}</p>
                                 </div>
                             </div>
                             <FocusZone>
                                 <Stack className={styles.buttons} gap={8} horizontal>
-                                    <PrimaryButton onClick={this._onDismiss}>Cancel</PrimaryButton>
-                                    <DefaultButton onClick={this._onKill}>Kill</DefaultButton>
+                                    <DefaultButton onClick={this._onDismiss}>No</DefaultButton>
+                                    <PrimaryButton onClick={this._onKill}>Yes</PrimaryButton>
                                 </Stack>
                             </FocusZone>
                         </FocusTrapCallout>

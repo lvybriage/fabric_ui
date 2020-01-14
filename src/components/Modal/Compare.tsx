@@ -9,7 +9,6 @@ import { TableRecord, Intermedia, TooltipForIntermediate } from '../../static/in
 // the modal of trial compare
 interface CompareProps {
     compareStacks: Array<TableRecord>;
-    visible: boolean;
     cancelFunc: () => void;
 }
 
@@ -201,14 +200,14 @@ class Compare extends React.Component<CompareProps, {}> {
     }
 
     render(): React.ReactNode {
-        const { visible, cancelFunc } = this.props;
+        const { cancelFunc } = this.props;
 
         return (
             <Modal
                 // title="Compare trials"
-                isOpen={visible}
+                isOpen={true}
                 onDismiss={cancelFunc}
-                styles={{ root: { width: '90%' } }}
+                // styles={{ root: { width: '90%' } }}
             >
                 <Stack className="compare-intermediate">
                     {this.intermediate()}
