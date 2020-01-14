@@ -36,25 +36,6 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
     public tableList!: TableList | null;
     public searchInput!: HTMLInputElement | null;
 
-    private titleOfacc = (
-        <Title1 text="Default metric" icon="3.png" />
-    );
-
-    private titleOfhyper = (
-        <Title1 text="Hyper-parameter" icon="1.png" />
-    );
-
-    private titleOfDuration = (
-        <Title1 text="Trial duration" icon="2.png" />
-    );
-
-    private titleOfIntermediate = (
-        <div className="panelTitle">
-            {a}
-            <span>Intermediate result</span>
-        </div>
-    );
-
     constructor(props: TrialsDetailProps) {
         super(props);
         this.state = {
@@ -82,7 +63,7 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
             case 'Trial No.':
                 filter = (trial): boolean => trial.info.sequenceId.toString() === targetValue;
                 break;
-            case 'status':
+            case 'Status':
                 filter = (trial): boolean => trial.info.status.toUpperCase().includes(targetValue.toUpperCase());
                 break;
             case 'parameters':
