@@ -25,6 +25,9 @@ class Details extends React.Component<DetailsProps, DetailsState> {
                 {/* TODO: 
                 1. 点击选择button openRow正常展开 在再tr上点击这一行 openRow闭合 选择button依然高亮 
                 2. 点击Operation里的button 依然会触发选择行的高亮
+                测试修改用户名
+                * git config user.name 'xxx'
+                * 在x项目下修改名字, 并非全局
                 */}
                 <div onClick={() => this.setState(() => ({isExpand: !isExpand}))}><DetailsRow {...detailsProps} /></div>
                 {/* <DetailsRow {...detailsProps} /> */}
