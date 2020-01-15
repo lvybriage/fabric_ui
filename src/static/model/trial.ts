@@ -1,5 +1,5 @@
 import { MetricDataRecord, TrialJobInfo, TableObj, TableRecord, Parameters, FinalType } from '../interface'; // eslint-disable-line no-unused-vars
-import { getFinal, formatAccuracy, metricAccuracy } from '../function';
+import { getFinal, formatAccuracy, metricAccuracy, parseMetrics } from '../function';
 
 class Trial implements TableObj {
     private metricsInitialized: boolean = false;
@@ -60,7 +60,7 @@ class Trial implements TableObj {
             const temp = this.intermediates[this.intermediates.length - 1];
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             if (temp !== undefined) {
-                return JSON.parse(temp.data);
+                return parseMetrics(temp.data);
             } else {
                 return undefined;
             }
@@ -144,10 +144,10 @@ class Trial implements TableObj {
 
         const mediate: number[] = [ ];
         for (const items of this.intermediateMetrics) {
-            if (typeof JSON.parse(items.data) === 'object') {
-                mediate.push(JSON.parse(items.data).default);
+            if (typeof parseMetrics(items.data) === 'object') {
+                mediate.push(parseMetrics(items.data).default);
             } else {
-                mediate.push(JSON.parse(items.data));
+                mediate.push(parseMetrics(items.data));
             }
         }
         ret.intermediate = mediate;

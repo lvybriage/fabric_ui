@@ -42,6 +42,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
                 newCol.isSortedDescending = true;
             }
         });
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const newItems = this._copyAndSort(source, currColumn.fieldName!, currColumn.isSortedDescending);
         this.setState({
             columns: newColumns,
