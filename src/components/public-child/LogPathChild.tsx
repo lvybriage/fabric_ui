@@ -12,7 +12,7 @@ class LogPathChild extends React.Component<LogpathChildProps, {}> {
 
     }
 
-    render() {
+    render(): React.ReactNode {
         const { eachLogpath, logName } = this.props;
         const isLink = /^http/gi.test(eachLogpath);
 

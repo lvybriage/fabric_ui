@@ -1,10 +1,7 @@
 import * as React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { filterByStatus } from '../../static/function';
-import {
-    Stack, PrimaryButton, Dropdown,
-    IDropdownOption, 
-    DefaultButton} from 'office-ui-fabric-react'; // eslint-disable-line no-unused-vars
+import { Stack, PrimaryButton, Dropdown, IDropdownOption, } from 'office-ui-fabric-react'; // eslint-disable-line no-unused-vars
 import { ParaObj, Dimobj, TableObj } from '../../static/interface'; // eslint-disable-line no-unused-vars
 import 'echarts/lib/chart/parallel';
 import 'echarts/lib/component/tooltip';
@@ -450,7 +447,7 @@ class Para extends React.Component<ParaProps, ParaState> {
     }
 
     // get swap parallel axis
-    getSwapArr = (event: React.FormEvent<HTMLDivElement>, item?: IDropdownOption): void=> {
+    getSwapArr = (event: React.FormEvent<HTMLDivElement>, item?: IDropdownOption): void => {
         const newSelectedItems = [...this.state.swapyAxis];
         if (item !== undefined) {
             if (item.selected) {
