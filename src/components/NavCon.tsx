@@ -70,12 +70,6 @@ class NavCon extends React.Component<{}, NavState> {
     closeExpDrawer = (): void => {
         this.setState({ isvisibleExperimentDrawer: false });
     }
-    // onMenuClick?: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => void;
-    // iconbuttonss = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, button?: IButtonProps) => {
-    //     console.info('ccc');
-    //     console.info(ev);
-    //     console.info(button);
-    // }
 
     render(): React.ReactNode {
         const { isvisibleLogDrawer, activeKey, isvisibleExperimentDrawer, version } = this.state;

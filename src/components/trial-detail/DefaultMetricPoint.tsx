@@ -127,8 +127,6 @@ class DefaultPoint extends React.Component<DefaultPointProps, DefaultPointState>
                         <Switch defaultChecked={false} onChange={this.loadDefault} /> */}
                         <Toggle label="Optimization curve"
                             inlineLabel
-                            // onText="On"
-                            // offText="Off"
                             onChange={this.loadDefault}
                         />
                     </Stack>

@@ -54,7 +54,7 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
         // get user edited hyperParameter, ps: will change data type if you modify the input val
         // const customized = this.props.form.getFieldsValue(); // 完整的trial parameter
         const customized = JSON.parse(JSON.stringify(copyTrialParameter));
-        // changeMap里存放的是用户改动的key
+        // changeMap: user changed keys: values
         changeMap.forEach(function (value, key) {
             customized[key] = value;
         });
@@ -192,6 +192,7 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
                             )
                             )
                         }
+                        {/* disable [tag] because we havn't support */}
                         {/* <Stack key="tag" horizontal className="hyper-form tag-input">
                             <StackItem grow={9} className="title">Tag</StackItem>
                             <StackItem grow={15} className="inputs">

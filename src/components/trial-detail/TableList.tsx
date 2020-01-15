@@ -70,15 +70,6 @@ const AccuracyColumnConfig: any = {
     fieldName: 'accuracy',
     minWidth: 200,
     isResizable: true,
-    // sorter: (a, b, sortOrder) => {
-    //     if (a.latestAccuracy === undefined) {
-    //         return sortOrder === 'ascend' ? 1 : -1;
-    //     } else if (b.latestAccuracy === undefined) {
-    //         return sortOrder === 'ascend' ? -1 : 1;
-    //     } else {
-    //         return a.latestAccuracy - b.latestAccuracy;
-    //     }
-    // },
     onRender: (item): React.ReactNode => <div>{item.formattedLatestAccuracy}</div>
 };
 
@@ -87,9 +78,7 @@ const SequenceIdColumnConfig: any = {
     key: 'sequenceId',
     fieldName: 'sequenceId',
     minWidth: 50,
-    className: 'tableHead',
-    // onColumnClick: this._onColumnClick
-    // sorter: (a, b) => a.sequenceId - b.sequenceId
+    className: 'tableHead'
 };
 
 const IdColumnConfig: any = {
@@ -99,7 +88,6 @@ const IdColumnConfig: any = {
     minWidth: 150,
     isResizable: true,
     className: 'tableHead leftTitle',
-    // sorter: (a, b) => a.id.localeCompare(b.id),
     onRender: (item): React.ReactNode => (
         <div>{item.id}</div>
     )
@@ -111,7 +99,6 @@ const StartTimeColumnConfig: any = {
     fieldName: 'startTime',
     minWidth: 150,
     isResizable: true,
-    // sorter: (a, b) => a.startTime - b.startTime,
     onRender: (record): React.ReactNode => (
         <span>{formatTimestamp(record.startTime)}</span>
     )
@@ -123,15 +110,6 @@ const EndTimeColumnConfig: any = {
     fieldName: 'endTime',
     minWidth: 150,
     isResizable: true,
-    // sorter: (a, b, sortOrder) => {
-    //     if (a.endTime === undefined) {
-    //         return sortOrder === 'ascend' ? 1 : -1;
-    //     } else if (b.endTime === undefined) {
-    //         return sortOrder === 'ascend' ? -1 : 1;
-    //     } else {
-    //         return a.endTime - b.endTime;
-    //     }
-    // },
     onRender: (record): React.ReactNode => (
         <span>{formatTimestamp(record.endTime, '--')}</span>
     )
@@ -143,7 +121,6 @@ const DurationColumnConfig: any = {
     fieldName: 'duration',
     minWidth: 150,
     isResizable: true,
-    // sorter: (a, b) => a.duration - b.duration,
     onRender: (record): React.ReactNode => (
         <span className="durationsty">{convertDuration(record.duration)}</span>
     )
@@ -159,9 +136,6 @@ const StatusColumnConfig: any = {
     onRender: (record): React.ReactNode => (
         <span className={`${record.status} commonStyle`}>{record.status}</span>
     ),
-    // sorter: (a, b) => a.status.localeCompare(b.status),
-    // filters: trialJobStatus.map(status => ({ text: status, value: status })),
-    // onFilter: (value, record) => (record.status === value)
 };
 
 const IntermediateCountColumnConfig: any = {
@@ -170,7 +144,6 @@ const IntermediateCountColumnConfig: any = {
     fieldName: 'intermediateCount',
     minWidth: 150,
     isResizable: true,
-    // sorter: (a, b) => a.intermediateCount - b.intermediateCount,
     onRender: (record): React.ReactNode => (
         <span>{`#${record.intermediateCount}`}</span>
     )
@@ -180,7 +153,6 @@ class TableList extends React.Component<TableListProps, TableListState> {
 
     public intervalTrialLog = 10;
     public _trialId!: string;
-    // public tables: Table<TableRecord> | null;
 
     constructor(props: TableListProps) {
         super(props);
@@ -386,7 +358,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
         // only succeed trials have final keys
         if (tableSource.filter(record => record.status === 'SUCCEEDED').length >= 1) {
             const temp = tableSource.filter(record => record.status === 'SUCCEEDED')[0].accuracy;
-            if (temp !== undefined && typeof temp === 'object') {
+            if (temp !== NaN && temp !== undefined && typeof temp === 'object') {
                 // concat default column and finalkeys
                 const item = Object.keys(temp);
                 // item: ['default', 'other-keys', 'maybe loss']
@@ -506,16 +478,6 @@ class TableList extends React.Component<TableListProps, TableListState> {
         return (
             <Stack className="tableList">
                 <div id="tableList">
-                    {/* <Table
-                        ref={(table: Table<TableRecord> | null): any => this.tables = table}
-                        columns={showColumn}
-                        rowSelection={rowSelection}
-                        expandedRowRender={this.openRow}
-                        dataSource={tableSource}
-                        className="commonTableStyle"
-                        scroll={{ x: 'max-content' }}
-                        pagination={pageSize > 0 ? { pageSize } : false}
-                    /> */}
                     <DetailsList
                         columns={showColumn}
                         items={tableSource}
@@ -578,7 +540,6 @@ class TableList extends React.Component<TableListProps, TableListState> {
 
                 {/* compare trials based message */}
                 {isShowCompareModal && <Compare compareStacks={selectRows} cancelFunc={this.hideCompareModal} />}
-                {/* {true && <Compare compareStacks={selectRows} cancelFunc={this.hideCompareModal} />} */}
                 {/* clone trial parameters and could submit a customized trial */}
                 <Customize
                     visible={isShowCustomizedModal}
