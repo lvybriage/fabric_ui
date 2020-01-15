@@ -7,7 +7,7 @@ import {
 } from 'office-ui-fabric-react';
 import { completed, blocked, copy } from '../Buttons/Icon';
 import { MANAGER_IP, COLUMNPro } from '../../static/const';
-import { convertDuration, formatTimestamp, intermediateGraphOption } from '../../static/function';
+import { convertDuration, formatTimestamp, intermediateGraphOption, parseMetrics } from '../../static/function';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { TableRecord } from '../../static/interface';
 import Details from '../overview/Details';
@@ -109,6 +109,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
                 newCol.isSortedDescending = true;
             }
         });
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const newItems = this._copyAndSort(tableSource, currColumn.fieldName!, currColumn.isSortedDescending);
         this.setState({
             tableColumns: newColumns,
@@ -232,11 +233,11 @@ class TableList extends React.Component<TableListProps, TableListState> {
             // get intermediate result dict keys array
             let otherkeys: string[] = ['default'];
             if (res.data.length !== 0) {
-                otherkeys = Object.keys(JSON.parse(res.data[0].data));
+                otherkeys = Object.keys(parseMetrics(res.data[0].data));
             }
             // intermediateArr just store default val
             Object.keys(res.data).map(item => {
-                const temp = JSON.parse(res.data[item].data);
+                const temp = parseMetrics(res.data[item].data);
                 if (typeof temp === 'object') {
                     intermediateArr.push(temp.default);
                 } else {
@@ -265,7 +266,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
             // just watch default key-val
             if (isShowDefault === true) {
                 Object.keys(intermediateData).map(item => {
-                    const temp = JSON.parse(intermediateData[item].data);
+                    const temp = parseMetrics(intermediateData[item].data);
                     if (typeof temp === 'object') {
                         intermediateArr.push(temp[value]);
                     } else {
@@ -274,7 +275,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
                 });
             } else {
                 Object.keys(intermediateData).map(item => {
-                    const temp = JSON.parse(intermediateData[item].data);
+                    const temp = parseMetrics(intermediateData[item].data);
                     if (typeof temp === 'object') {
                         intermediateArr.push(temp[value]);
                     }
