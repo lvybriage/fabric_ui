@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dialog, DialogType, DialogFooter, IColumn, Checkbox, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 import { OPERATION } from '../../static/const';
 
-interface KillJobState {
+interface ChangeColumnState {
     userSelectColumnList: string[];
     originSelectColumnList: string[];
 }
@@ -13,7 +13,6 @@ interface ChangeColumnProps {
     selectedColumn: string[]; // user selected column list
     changeColumn: (val: Array<string>) => void;
     hideShowColumnDialog: () => void;
-    ccc: (val: string[]) => IColumn[];
 }
 
 interface CheckBoxItems {
@@ -21,7 +20,7 @@ interface CheckBoxItems {
     checked: boolean;
     onChange: () => void;
 }
-class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobState> {
+class ChangeColumnComponent extends React.Component<ChangeColumnProps, ChangeColumnState> {
 
     constructor(props: ChangeColumnProps) {
         super(props);

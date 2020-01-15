@@ -593,7 +593,6 @@ class TableList extends React.Component<TableListProps, TableListState> {
                         showColumn={allColumnList}
                         selectedColumn={columnList}
                         changeColumn={this.props.changeColumn}
-                        ccc={this.initTableColumnList}
                     />
                 }
 
