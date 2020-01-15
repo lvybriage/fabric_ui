@@ -358,18 +358,20 @@ class TableList extends React.Component<TableListProps, TableListState> {
         // only succeed trials have final keys
         if (tableSource.filter(record => record.status === 'SUCCEEDED').length >= 1) {
             const temp = tableSource.filter(record => record.status === 'SUCCEEDED')[0].accuracy;
-            if (temp !== NaN && temp !== undefined && typeof temp === 'object') {
-                // concat default column and finalkeys
-                const item = Object.keys(temp);
-                // item: ['default', 'other-keys', 'maybe loss']
-                if (item.length > 1) {
-                    const want: Array<string> = [];
-                    item.forEach(value => {
-                        if (value !== 'default') {
-                            want.push(value);
-                        }
-                    });
-                    showTitle = COLUMNPro.concat(want);
+            if (temp !== undefined && typeof temp === 'object') {
+                if (!isNaN(temp)) {
+                    // concat default column and finalkeys
+                    const item = Object.keys(temp);
+                    // item: ['default', 'other-keys', 'maybe loss']
+                    if (item.length > 1) {
+                        const want: Array<string> = [];
+                        item.forEach(value => {
+                            if (value !== 'default') {
+                                want.push(value);
+                            }
+                        });
+                        showTitle = COLUMNPro.concat(want);
+                    }
                 }
             }
         }
