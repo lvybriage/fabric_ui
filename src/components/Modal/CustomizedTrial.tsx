@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { Stack, StackItem, Modal, PrimaryButton, DefaultButton, divProperties } from 'office-ui-fabric-react';
+import { Stack, StackItem, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { MANAGER_IP } from '../../static/const';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
@@ -40,7 +40,7 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
         };
     }
 
-    getFinalVal = (event: React.ChangeEvent<HTMLInputElement>) => {
+    getFinalVal = (event: React.ChangeEvent<HTMLInputElement>): void => {
 
         const { name, value } = event.target;
         const { changeMap } = this.state;
@@ -49,13 +49,13 @@ class Customize extends React.Component<CustomizeProps, CustomizeState> {
     }
 
     // [submit click] user add a new trial [submit a trial]
-    addNewTrial = () => {
+    addNewTrial = (): void => {
         const { searchSpace, copyTrialParameter, changeMap } = this.state;
         // get user edited hyperParameter, ps: will change data type if you modify the input val
         // const customized = this.props.form.getFieldsValue(); // 完整的trial parameter
         const customized = JSON.parse(JSON.stringify(copyTrialParameter));
         // changeMap里存放的是用户改动的key
-        changeMap.forEach(function (value, key, ownerMap) {
+        changeMap.forEach(function (value, key) {
             customized[key] = value;
         });
 

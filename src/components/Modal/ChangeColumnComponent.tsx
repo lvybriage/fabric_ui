@@ -30,7 +30,7 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
     }
 
     makeChangeHandler = (label: string): any => {
-        return (ev: any, checked: boolean) => this._onCheckboxChange(ev, label, checked);
+        return (ev: any, checked: boolean): void => this._onCheckboxChange(ev, label, checked);
     }
 
     _onCheckboxChange = (ev: React.FormEvent<HTMLElement | HTMLInputElement> | undefined, label: string, val?: boolean, ): void => {
@@ -98,7 +98,7 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
     }
 
     // 用户放弃当前改动, 退出dialog
-    cancelOption = () => {
+    cancelOption = (): void => {
         // 重新设置select column, 取消掉用户的操作
         const { originSelectColumnList } = this.state;
         this.setState({ userSelectColumnList: originSelectColumnList }, () => {

@@ -9,7 +9,6 @@ import Duration from './trial-detail/Duration';
 import Title1 from './overview/Title1';
 import Para from './trial-detail/Para';
 import Intermediate from './trial-detail/Intermediate';
-import { a } from './Buttons/Icon';
 import TableList from './trial-detail/TableList';
 import '../static/style/trialsDetail.scss';
 import '../static/style/search.scss';

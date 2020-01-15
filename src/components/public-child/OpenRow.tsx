@@ -4,13 +4,11 @@ import PaiTrialLog from '../public-child/PaiTrialLog';
 import TrialLog from '../public-child/TrialLog';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { Trial } from '../../static/model/trial';
-// import { Row, Tabs, Button, message, Modal } from 'antd';
 import { Stack, PrimaryButton, Pivot, PivotItem, Dialog, DialogFooter, DefaultButton } from 'office-ui-fabric-react';
 import { MANAGER_IP } from '../../static/const';
 import '../../static/style/overview.scss';
 import '../../static/style/copyParameter.scss';
 import JSONTree from 'react-json-tree';
-import { format } from 'path';
 
 interface OpenRowProps {
     trialId: string;
@@ -31,19 +29,19 @@ class OpenRow extends React.Component<OpenRowProps, OpenRowState> {
         };
     }
 
-    showFormatModal = (trial: Trial) => {
+    showFormatModal = (trial: Trial): void => {
         // get copy parameters
         const params = JSON.stringify(trial.info.hyperParameters, null, 4);
         // open modal with format string
         this.setState({ isShowFormatModal: true, formatStr: params });
     }
 
-    hideFormatModal = () => {
+    hideFormatModal = (): void => {
         // close modal, destroy state format string data
         this.setState({ isShowFormatModal: false, formatStr: '' });
     }
 
-    copyParams = () => {
+    copyParams = (): void => {
         // json format
         const { formatStr } = this.state;
         if (copy.default(formatStr)) {
@@ -61,7 +59,7 @@ class OpenRow extends React.Component<OpenRowProps, OpenRowState> {
         this.hideFormatModal();
     }
 
-    render() {
+    render(): React.ReactNode {
         const { isShowFormatModal, formatStr } = this.state;
         const trialId = this.props.trialId;
         const trial = TRIALS.getTrial(trialId);
@@ -96,8 +94,9 @@ class OpenRow extends React.Component<OpenRowProps, OpenRowState> {
                                     <Stack className="bgHyper">
                                         <JSONTree
                                             hideRoot={true}
-                                            shouldExpandNode={() => true}  // default expandNode
-                                            getItemString={() => (<span />)}  // remove the {} items
+                                            shouldExpandNode={(): boolean => true}  // default expandNode
+                                            // getItemString={(): null => (<span />)}  // remove the {} items
+                                            getItemString={(): null => null}  // remove the {} items
                                             data={trial.description.parameters}
                                         />
                                     </Stack>

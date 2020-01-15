@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { DetailsList, IDetailsListProps } from 'office-ui-fabric-react';
 import DefaultMetric from '../public-child/DefaultMetric';
 import Details from './Details';
@@ -37,7 +36,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
                 fieldName: 'sequenceId',
                 minWidth: 80,
                 maxWidth: 80,
-                onRender(item: any) {
+                onRender(item: any): React.ReactNode {
                     return <div>{item.sequenceId}</div>
                 }
             }, {
@@ -46,7 +45,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
                 fieldName: 'id',
                 minWidth: 80,
                 className: 'tableHead leftTitle',
-                render: (item: any) => {
+                render: (item: any): React.ReactNode => {
                     return (
                         <div>{item.id}</div>
                     );
@@ -56,7 +55,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
                 key: 'duration',
                 minWidth: 140,
                 fieldName: 'duration',
-                render: (item: any) => {
+                render: (item: any): React.ReactNode => {
                     return (
                         <div className="durationsty"><div>{convertDuration(item.duration)}</div></div>
                     );
@@ -66,7 +65,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
                 key: 'status',
                 minWidth: 150,
                 fieldName: 'status',
-                render: (item: any) => {
+                render: (item: any): React.ReactNode => {
                     return (
                         <div className={`${item.status} commonStyle`}>{item.status}</div>
                     );
@@ -76,7 +75,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
                 key: 'accuracy',
                 fieldName: 'accuracy',
                 minWidth: 100,
-                render: (item: any) => {
+                render: (item: any): React.ReactNode => {
                     return (
                         <DefaultMetric trialId={item.id} />
                     );

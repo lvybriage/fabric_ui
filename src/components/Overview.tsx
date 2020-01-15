@@ -51,7 +51,7 @@ class Overview extends React.Component<OverviewProps, OverviewState> {
 
     render(): React.ReactNode {
         const { trialConcurrency } = this.state;
-        const { experimentUpdateBroadcast, metricGraphMode, test } = this.props;
+        const { experimentUpdateBroadcast, metricGraphMode } = this.props;
         const searchSpace = this.convertSearchSpace();
         const bestTrials = this.findBestTrials();
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

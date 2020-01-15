@@ -29,7 +29,7 @@ class Details extends React.Component<DetailsProps, DetailsState> {
                 * git config user.name 'xxx'
                 * 在x项目下修改名字, 并非全局
                 */}
-                <div onClick={() => this.setState(() => ({isExpand: !isExpand}))}><DetailsRow {...detailsProps} /></div>
+                <div onClick={(): void => this.setState(() => ({isExpand: !isExpand}))}><DetailsRow {...detailsProps} /></div>
                 {/* <DetailsRow {...detailsProps} /> */}
                 {isExpand && <OpenRow trialId={detailsProps.item.id}/>}
             </div>

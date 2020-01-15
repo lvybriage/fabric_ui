@@ -6,7 +6,7 @@ import {
     PrimaryButton, Modal, IDropdownOption, IColumn, Selection, SelectionMode
 } from 'office-ui-fabric-react';
 import { completed, blocked, copy } from '../Buttons/Icon';
-import { MANAGER_IP, trialJobStatus, COLUMNPro } from '../../static/const';
+import { MANAGER_IP, COLUMNPro } from '../../static/const';
 import { convertDuration, formatTimestamp, intermediateGraphOption } from '../../static/function';
 import { EXPERIMENT, TRIALS } from '../../static/datamodel';
 import { TableRecord } from '../../static/interface';
@@ -341,48 +341,16 @@ class TableList extends React.Component<TableListProps, TableListState> {
         return null;
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         window.addEventListener('resize', this.onWindowResize);
-    }
-    test = (item?: any, index?: number) => {
-        console.info(item); // eslint-disable-line
-        console.info(index); // eslint-disable-line
     }
 
     _selection = new Selection({
-        onSelectionChanged: () => {
+        onSelectionChanged: (): void => {
             this.setState(() => ({ selectRows: this._selection.getSelection() }));
             console.info(this._selection.getSelection()); // eslint-disable-line
         }
     });
-
-    // private _onColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn): void => {
-    //     const { tableSource, columnList } = this.props;
-    //     const newColumns: IColumn[] = columnList.slice();
-    //     const currColumn: IColumn = newColumns.filter(currCol => column.key === currCol.key)[0];
-    //     newColumns.forEach((newCol: IColumn) => {
-    //         if (newCol === currColumn) {
-    //             currColumn.isSortedDescending = !currColumn.isSortedDescending;
-    //             currColumn.isSorted = true;
-    //             // this.setState({
-    //             //     announcedMessage: `${currColumn.name} is sorted ${currColumn.isSortedDescending ? 'descending' : 'ascending'}`
-    //             // });
-    //         } else {
-    //             newCol.isSorted = false;
-    //             newCol.isSortedDescending = true;
-    //         }
-    //     });
-    //     const newItems =this. _copyAndSort(tableSource, currColumn.fieldName!, currColumn.isSortedDescending);
-    //     this.setState({
-    //         // columns: newColumns,
-    //         tableSource: newItems
-    //     });
-    // };
-
-    // _copyAndSort<T>(items: T[], columnKey: string, isSortedDescending?: boolean): T[] {
-    //     const key = columnKey as keyof T;
-    //     return items.slice(0).sort((a: T, b: T) => ((isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1));
-    // }
 
     render(): React.ReactNode {
         const {
@@ -392,7 +360,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
         const tableSource: Array<TableRecord> = JSON.parse(JSON.stringify(this.props.tableSource));
         const { intermediateOption, modalVisible,
             isShowColumn,
-            selectRows, isShowCompareModal, selectedRowKeys,
+            selectRows, isShowCompareModal,
             intermediateOtherKeys,
             isShowCustomizedModal, copyTrialId
         } = this.state;
