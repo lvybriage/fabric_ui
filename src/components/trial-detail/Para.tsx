@@ -35,11 +35,6 @@ interface ParaProps {
     whichGraph: string;
 }
 
-// message.config({
-//     top: 250,
-//     duration: 2,
-// });
-
 class Para extends React.Component<ParaProps, ParaState> {
 
     private chartMulineStyle = {

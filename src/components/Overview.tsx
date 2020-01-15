@@ -130,7 +130,6 @@ class Overview extends React.Component<OverviewProps, OverviewState> {
                             </Stack>
                         </StackItem>
                         <StackItem grow={70} styles={{root: {width: 500}}}>
-                        {/* <StackItem grow={70}> */}
                             <div id="succeTable"><SuccessTable trialIds={bestTrials.map(trial => trial.info.id)} /></div>
                         </StackItem>
                     </Stack>

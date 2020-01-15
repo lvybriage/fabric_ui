@@ -46,7 +46,7 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
         };
     }
 
-    // search a trial by trial No. & trial id
+    // search a trial by trial No. | trial id | Parameters | Status
     searchTrial = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const targetValue = event.target.value;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -117,9 +117,8 @@ class TrialsDetail extends React.Component<TrialsDetailProps, TrialDetailState> 
         return (
             <div>
                 <div className="trial" id="tabsty">
-                    {/* <Pivot onChange={this.handleWhichTabs}> */}
                     <Pivot defaultSelectedKey={"0"}>
-                        {/* <PivotItem tab={this.titleOfacc} key="1"> */}
+                        {/* <PivotItem tab={this.titleOfacc} key="1"> doesn't work*/}
                         <PivotItem headerText="Default metric" itemIcon="Recent" key="1">
                             <Stack className="graph">
                                 <DefaultPoint

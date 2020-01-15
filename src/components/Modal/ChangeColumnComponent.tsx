@@ -5,8 +5,8 @@ import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { OPERATION } from '../../static/const';
 
 interface KillJobState {
-    userSelectColumnList: string[]; // 支持改变，实时保存用户的操作
-    originSelectColumnList: string[]; // 不支持改变，保留原始操作[用户各种选，然后放弃操作]
+    userSelectColumnList: string[];
+    originSelectColumnList: string[];
 }
 
 interface ChangeColumnProps {
@@ -50,15 +50,14 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
     };
 
     saveUserSelectColumn = (): void => {
-        // 保留用户选择的column 改变props
         const { userSelectColumnList } = this.state;
         const { showColumn } = this.props;
         console.info('showColumn', showColumn); // eslint-disable-line
-        // 保证顺次展示Trial No. | ID | Duration | Start Time | End Time | ...
+        // sort by Trial No. | ID | Duration | Start Time | End Time | ...
         const sortColumn: string[] = [];
         /**
          * 
-         * search space 顺序比较乱
+         * search space might orderless
             showColumn.map(item => {
                 userSelectColumnList.map(key => {
                     if (item === key || key.includes('search space')) {
@@ -69,7 +68,7 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
                 });
             });
          */
-        // 先不放[Operation] [search space]类的column
+        // push ![Operation] ![search space] column
         showColumn.map(item => {
             userSelectColumnList.map(key => {
                 if (item === key && item !== OPERATION) {
@@ -77,7 +76,7 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
                 }
             });
         });
-        // 处理search space key
+        // push search space key
         userSelectColumnList.map(index => {
             if (index.includes('search space')) {
                 if (!sortColumn.includes(index)) {
@@ -85,21 +84,21 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
                 }
             }
         });
-        // 处理Operation
+        // push Operation
         if (userSelectColumnList.includes(OPERATION)) {
             sortColumn.push(OPERATION);
         }
         this.props.changeColumn(sortColumn);
-        this.hideDialog(); // 隐藏dialog
+        this.hideDialog(); // hide dialog
     }
 
     hideDialog = (): void => {
         this.props.hideShowColumnDialog();
     }
 
-    // 用户放弃当前改动, 退出dialog
+    // user exit dialog
     cancelOption = (): void => {
-        // 重新设置select column, 取消掉用户的操作
+        // reset select column
         const { originSelectColumnList } = this.state;
         this.setState({ userSelectColumnList: originSelectColumnList }, () => {
             this.hideDialog();

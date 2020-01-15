@@ -33,7 +33,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
             {
                 name: 'Trial No.',
                 key: 'sequenceId',
-                fieldName: 'sequenceId',
+                fieldName: 'sequenceId', // required!
                 minWidth: 80,
                 maxWidth: 80,
                 onRender(item: any): React.ReactNode {
@@ -85,8 +85,7 @@ class SuccessTable extends React.Component<SuccessTableProps, SuccessTableState>
         
         return (
             <div id="succTable">
-                {/* 只能render出column 数据render不上 */}
-                {/* done fixed: add fieldName 属性 */}
+                {/* fieldName is required */}
                 {/* TODO: lineHeight question */}
                 <DetailsList
                     columns={columns}
