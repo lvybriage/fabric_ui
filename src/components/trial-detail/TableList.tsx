@@ -56,98 +56,11 @@ interface TableListState {
     isExpand: boolean;
     modalIntermediateWidth: number;
     modalIntermediateHeight: number;
+    tableColumns: IColumn[];
+    allColumnList: string[];
+    tableSourceForSort: Array<TableRecord>;
 }
 
-interface ColumnIndex {
-    name: string;
-    index: number;
-}
-
-const AccuracyColumnConfig: any = {
-    name: 'Default metric',
-    className: 'leftTitle',
-    key: 'accuracy',
-    fieldName: 'accuracy',
-    minWidth: 200,
-    isResizable: true,
-    onRender: (item): React.ReactNode => <div>{item.formattedLatestAccuracy}</div>
-};
-
-const SequenceIdColumnConfig: any = {
-    name: 'Trial No.',
-    key: 'sequenceId',
-    fieldName: 'sequenceId',
-    minWidth: 50,
-    className: 'tableHead'
-};
-
-const IdColumnConfig: any = {
-    name: 'ID',
-    key: 'id',
-    fieldName: 'id',
-    minWidth: 150,
-    isResizable: true,
-    className: 'tableHead leftTitle',
-    onRender: (item): React.ReactNode => (
-        <div>{item.id}</div>
-    )
-};
-
-const StartTimeColumnConfig: any = {
-    name: 'Start Time',
-    key: 'startTime',
-    fieldName: 'startTime',
-    minWidth: 150,
-    isResizable: true,
-    onRender: (record): React.ReactNode => (
-        <span>{formatTimestamp(record.startTime)}</span>
-    )
-};
-
-const EndTimeColumnConfig: any = {
-    name: 'End Time',
-    key: 'endTime',
-    fieldName: 'endTime',
-    minWidth: 150,
-    isResizable: true,
-    onRender: (record): React.ReactNode => (
-        <span>{formatTimestamp(record.endTime, '--')}</span>
-    )
-};
-
-const DurationColumnConfig: any = {
-    name: 'Duration',
-    key: 'duration',
-    fieldName: 'duration',
-    minWidth: 150,
-    isResizable: true,
-    onRender: (record): React.ReactNode => (
-        <span className="durationsty">{convertDuration(record.duration)}</span>
-    )
-};
-
-const StatusColumnConfig: any = {
-    name: 'Status',
-    key: 'status',
-    fieldName: 'status',
-    className: 'tableStatus',
-    minWidth: 150,
-    isResizable: true,
-    onRender: (record): React.ReactNode => (
-        <span className={`${record.status} commonStyle`}>{record.status}</span>
-    ),
-};
-
-const IntermediateCountColumnConfig: any = {
-    name: 'Intermediate result',
-    dataIndex: 'intermediateCount',
-    fieldName: 'intermediateCount',
-    minWidth: 150,
-    isResizable: true,
-    onRender: (record): React.ReactNode => (
-        <span>{`#${record.intermediateCount}`}</span>
-    )
-};
 
 class TableList extends React.Component<TableListProps, TableListState> {
 
@@ -174,10 +87,140 @@ class TableList extends React.Component<TableListProps, TableListState> {
             intermediateKeys: ['default'],
             isExpand: false,
             modalIntermediateWidth: window.innerWidth,
-            modalIntermediateHeight: window.innerHeight
+            modalIntermediateHeight: window.innerHeight,
+            tableColumns: this.initTableColumnList(this.props.columnList),
+            allColumnList: this.getAllColumnKeys(),
+            tableSourceForSort: this.props.tableSource
         };
     }
 
+    // sort for table column
+    _onColumnClick = (ev: React.MouseEvent<HTMLElement>, getColumn: IColumn): void => {
+        const { tableColumns } = this.state;
+        const { tableSource } = this.props;
+        const newColumns: IColumn[] = tableColumns.slice();
+        const currColumn: IColumn = newColumns.filter(item => getColumn.key === item.key)[0];
+        newColumns.forEach((newCol: IColumn) => {
+            if (newCol === currColumn) {
+                currColumn.isSortedDescending = !currColumn.isSortedDescending;
+                currColumn.isSorted = true;
+            } else {
+                newCol.isSorted = false;
+                newCol.isSortedDescending = true;
+            }
+        });
+        const newItems = this._copyAndSort(tableSource, currColumn.fieldName!, currColumn.isSortedDescending);
+        this.setState({
+            tableColumns: newColumns,
+            tableSourceForSort: newItems
+        });
+    };
+
+    private _copyAndSort<T>(items: T[], columnKey: string, isSortedDescending?: boolean): T[] {
+        const key = columnKey as keyof T;
+        return items.slice(0).sort((a: T, b: T) => ((isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1));
+    }
+
+    AccuracyColumnConfig: any = {
+        name: 'Default metric',
+        className: 'leftTitle',
+        key: 'accuracy',
+        fieldName: 'accuracy',
+        minWidth: 200,
+        isResizable: true,
+        data: 'number',
+        onColumnClick: this._onColumnClick,
+        onRender: (item): React.ReactNode => <div>{item.formattedLatestAccuracy}</div>
+    };
+
+    SequenceIdColumnConfig: any = {
+        name: 'Trial No.',
+        key: 'sequenceId',
+        fieldName: 'sequenceId',
+        minWidth: 50,
+        className: 'tableHead',
+        data: 'string',
+        onColumnClick: this._onColumnClick,
+    };
+    
+    IdColumnConfig: any = {
+        name: 'ID',
+        key: 'id',
+        fieldName: 'id',
+        minWidth: 150,
+        isResizable: true,
+        data: 'string',
+        onColumnClick: this._onColumnClick,
+        className: 'tableHead leftTitle'
+    };
+    
+    
+    StartTimeColumnConfig: any = {
+        name: 'Start Time',
+        key: 'startTime',
+        fieldName: 'startTime',
+        minWidth: 150,
+        isResizable: true,
+        data: 'number',
+        onColumnClick: this._onColumnClick,
+        onRender: (record): React.ReactNode => (
+            <span>{formatTimestamp(record.startTime)}</span>
+        )
+    };
+    
+    EndTimeColumnConfig: any = {
+        name: 'End Time',
+        key: 'endTime',
+        fieldName: 'endTime',
+        minWidth: 150,
+        isResizable: true,
+        data: 'number',
+        onColumnClick: this._onColumnClick,
+        onRender: (record): React.ReactNode => (
+            <span>{formatTimestamp(record.endTime, '--')}</span>
+        )
+    };
+    
+    DurationColumnConfig: any = {
+        name: 'Duration',
+        key: 'duration',
+        fieldName: 'duration',
+        minWidth: 150,
+        isResizable: true,
+        data: 'number',
+        onColumnClick: this._onColumnClick,
+        onRender: (record): React.ReactNode => (
+            <span className="durationsty">{convertDuration(record.duration)}</span>
+        )
+    };
+    
+    StatusColumnConfig: any = {
+        name: 'Status',
+        key: 'status',
+        fieldName: 'status',
+        className: 'tableStatus',
+        minWidth: 150,
+        isResizable: true,
+        data: 'string',
+        onColumnClick: this._onColumnClick,
+        onRender: (record): React.ReactNode => (
+            <span className={`${record.status} commonStyle`}>{record.status}</span>
+        ),
+    };
+    
+    IntermediateCountColumnConfig: any = {
+        name: 'Intermediate result',
+        dataIndex: 'intermediateCount',
+        fieldName: 'intermediateCount',
+        minWidth: 150,
+        isResizable: true,
+        data: 'number',
+        onColumnClick: this._onColumnClick,
+        onRender: (record): React.ReactNode => (
+            <span>{`#${record.intermediateCount}`}</span>
+        )
+    };
+    
     showIntermediateModal = async (id: string, event: React.SyntheticEvent<EventTarget>): Promise<void> => {
         event.preventDefault();
         event.stopPropagation();
@@ -277,13 +320,13 @@ class TableList extends React.Component<TableListProps, TableListState> {
         }
     }
     // close Compare-modal
-    hideCompareModal = (): void => {
+    private hideCompareModal = (): void => {
         // close modal. clear select rows data, clear selected track
         this.setState({ isShowCompareModal: false, selectedRowKeys: [], selectRows: [] });
     }
 
     // open customized trial modal
-    setCustomizedTrial = (trialId: string, event: React.SyntheticEvent<EventTarget>): void => {
+    private setCustomizedTrial = (trialId: string, event: React.SyntheticEvent<EventTarget>): void => {
         event.preventDefault();
         event.stopPropagation();
         this.setState({
@@ -292,14 +335,14 @@ class TableList extends React.Component<TableListProps, TableListState> {
         });
     }
 
-    closeCustomizedTrial = (): void => {
+    private closeCustomizedTrial = (): void => {
         this.setState({
             isShowCustomizedModal: false,
             copyTrialId: ''
         });
     }
 
-    onWindowResize = (): void => {
+    private onWindowResize = (): void => {
         this.setState(() => ({
             modalIntermediateHeight: window.innerHeight,
             modalIntermediateWidth: window.innerWidth
@@ -313,35 +356,16 @@ class TableList extends React.Component<TableListProps, TableListState> {
         return null;
     };
 
-    componentDidMount(): void {
-        window.addEventListener('resize', this.onWindowResize);
-    }
-
-    _selection = new Selection({
+    private getSelectedRows = new Selection({
         onSelectionChanged: (): void => {
-            this.setState(() => ({ selectRows: this._selection.getSelection() }));
-            console.info(this._selection.getSelection()); // eslint-disable-line
+            this.setState(() => ({ selectRows: this.getSelectedRows.getSelection() }));
+            console.info(this.getSelectedRows.getSelection()); // eslint-disable-line
         }
     });
 
-    render(): React.ReactNode {
-        const {
-            // pageSize,
-            columnList } = this.props;
-        const { intermediateKeys, modalIntermediateWidth, modalIntermediateHeight } = this.state;
+    // trial parameters & dict final keys & Trial No. Id ...
+    private getAllColumnKeys = (): string[] => {
         const tableSource: Array<TableRecord> = JSON.parse(JSON.stringify(this.props.tableSource));
-        const { intermediateOption, modalVisible,
-            isShowColumn,
-            selectRows, isShowCompareModal,
-            intermediateOtherKeys,
-            isShowCustomizedModal, copyTrialId
-        } = this.state;
-        // [supportCustomizedTrial: true]
-        const supportCustomizedTrial = (EXPERIMENT.multiPhase === true) ? false : true;
-        const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
-
-        const showColumn: IColumn[] = [];
-
         // parameter as table column
         const parameterStr: Array<string> = [];
         if (tableSource.length > 0) {
@@ -375,36 +399,47 @@ class TableList extends React.Component<TableListProps, TableListState> {
                 }
             }
         }
+        return showTitle;
+    }
+
+    // get IColumn[]
+    // when user click [Add Column] need to use the function
+    private initTableColumnList = (columnList: string[]): IColumn[] => {
+        // const { columnList } = this.props;
+        // [supportCustomizedTrial: true]
+        const supportCustomizedTrial = (EXPERIMENT.multiPhase === true) ? false : true;
+        const disabledAddCustomizedTrial = ['DONE', 'ERROR', 'STOPPED'].includes(EXPERIMENT.status);
+        const showColumn: IColumn[] = [];
         for (const item of columnList) {
             const paraColumn = item.match(/ \(search space\)$/);
-            let cc;
+            let result;
             if (paraColumn !== null) {
-                cc = paraColumn.input;
+                result = paraColumn.input;
             }
             switch (item) {
                 case 'Trial No.':
-                    showColumn.push(SequenceIdColumnConfig);
+                    showColumn.push(this.SequenceIdColumnConfig);
                     break;
                 case 'ID':
-                    showColumn.push(IdColumnConfig);
+                    showColumn.push(this.IdColumnConfig);
                     break;
                 case 'Start Time':
-                    showColumn.push(StartTimeColumnConfig);
+                    showColumn.push(this.StartTimeColumnConfig);
                     break;
                 case 'End Time':
-                    showColumn.push(EndTimeColumnConfig);
+                    showColumn.push(this.EndTimeColumnConfig);
                     break;
                 case 'Duration':
-                    showColumn.push(DurationColumnConfig);
+                    showColumn.push(this.DurationColumnConfig);
                     break;
                 case 'Status':
-                    showColumn.push(StatusColumnConfig);
+                    showColumn.push(this.StatusColumnConfig);
                     break;
                 case 'Intermediate result':
-                    showColumn.push(IntermediateCountColumnConfig);
+                    showColumn.push(this.IntermediateCountColumnConfig);
                     break;
                 case 'Default':
-                    showColumn.push(AccuracyColumnConfig);
+                    showColumn.push(this.AccuracyColumnConfig);
                     break;
                 case 'Operation':
                     showColumn.push({
@@ -455,7 +490,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
                         },
                     });
                     break;
-                case (cc):
+                case (result):
                     // remove SEARCH_SPACE title
                     // const realItem = item.replace(' (search space)', '');
                     showColumn.push({
@@ -476,17 +511,38 @@ class TableList extends React.Component<TableListProps, TableListState> {
                     alert('Unexpected column type');
             }
         }
+        return showColumn;
+    }
+
+    componentDidMount(): void {
+        window.addEventListener('resize', this.onWindowResize);
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps: TableListProps): void {
+        const { columnList } = nextProps;
+        this.setState({ tableColumns: this.initTableColumnList(columnList) });
+
+
+    }
+    render(): React.ReactNode {
+        const { intermediateKeys, modalIntermediateWidth, modalIntermediateHeight,
+            tableColumns, allColumnList, isShowColumn, modalVisible,
+            selectRows, isShowCompareModal, intermediateOtherKeys,
+            isShowCustomizedModal, copyTrialId, intermediateOption
+        } = this.state;
+        const { columnList } = this.props;
+        const tableSource: Array<TableRecord> = JSON.parse(JSON.stringify(this.state.tableSourceForSort));
 
         return (
             <Stack className="tableList">
                 <div id="tableList">
                     <DetailsList
-                        columns={showColumn}
+                        columns={tableColumns}
                         items={tableSource}
                         setKey="set"
                         onRenderRow={this._onRenderRow}
                         selectionMode={SelectionMode.multiple}
-                        selection={this._selection}
+                        selection={this.getSelectedRows}
                     />
                     {/* Intermediate Result Modal */}
                     <Modal
@@ -534,7 +590,7 @@ class TableList extends React.Component<TableListProps, TableListState> {
                     <ChangeColumnComponent
                         hideShowColumnDialog={this.hideShowColumnModal}
                         isHideDialog={!isShowColumn}
-                        showColumn={showTitle}
+                        showColumn={allColumnList}
                         selectedColumn={columnList}
                         changeColumn={this.props.changeColumn}
                     />

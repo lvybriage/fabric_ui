@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
-import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
+import { Dialog, DialogType, DialogFooter, IColumn, Checkbox, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 import { OPERATION } from '../../static/const';
 
-interface KillJobState {
+interface ChangeColumnState {
     userSelectColumnList: string[];
     originSelectColumnList: string[];
 }
@@ -22,7 +20,7 @@ interface CheckBoxItems {
     checked: boolean;
     onChange: () => void;
 }
-class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobState> {
+class ChangeColumnComponent extends React.Component<ChangeColumnProps, ChangeColumnState> {
 
     constructor(props: ChangeColumnProps) {
         super(props);
@@ -89,6 +87,7 @@ class ChangeColumnComponent extends React.Component<ChangeColumnProps, KillJobSt
             sortColumn.push(OPERATION);
         }
         this.props.changeColumn(sortColumn);
+        // this.props.ccc(sortColumn);
         this.hideDialog(); // hide dialog
     }
 
